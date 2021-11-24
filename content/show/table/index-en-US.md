@@ -24,56 +24,56 @@ Into the header. `columns` And data. `DataSource` To render.
 import React from 'react';
 import { Table } from '@douyinfe/semi-ui';
 
-class App extends React.Component {
-    constructor() {
-        this.columns = [
-            {
-                title: 'Name',
-                Data Index: 'name',
-                render: text => <a>{text}</a>,
+function App() {
+    const columns = [
+        {
+            title: 'Name',
+            dataIndex: 'name',
+            render: (text, record, index) => {
+                console.log(text, record, index);
+                return <a>{text}</a>;
             },
-            {
-                title: 'Age',
-                dataIndex: 'age',
-            },
-            {
-                title: 'Address',
-                dataIndex: 'address',
-            },
-        ];
+        },
+        {
+            title: 'Age',
+            dataIndex: 'age',
+        },
+        {
+            title: 'Address',
+            dataIndex: 'address',
+        },
+    ];
+    const data = [
+        {
+            key: '1',
+            name: 'John Brown',
+            age: 32,
+            address: 'New York No. 1 Lake Park, New York No. 1 Lake Park',
+        },
+        {
+            key: '2',
+            name: 'Jim Green',
+            age: 42,
+            address: 'London No. 1 Lake Park',
+        },
+        {
+            key: '3',
+            name: 'Joe Black',
+            age: 32,
+            address: 'Sidney No. 1 Lake Park',
+        },
+        {
+            key: '4',
+            name: 'Michael James',
+            age: 99,
+            address: 'Sidney No. 1 Lake Park',
+        },
+    ];
 
-        this.data = [
-            {
-                key: '1',
-                name: 'John Brown',
-                age: 32,
-                address: 'New York No. 1 Lake Park, New York No. 1 Lake Park',
-            },
-            {
-                key: '2',
-                name: 'Jim Green',
-                age: 42,
-                address: 'London No. 1 Lake Park',
-            },
-            {
-                key: '3',
-                name: 'Joe Black',
-                age: 32,
-                address: 'Sidney No. 1 Lake Park',
-            },
-            {
-                key: '4',
-                name: 'Michael James',
-                age: 99,
-                address: 'Sidney No. 1 Lake Park',
-            },
-        ];
-    }
-
-    render() {
-        <Table columns={this.columns} dataSource={this.data} />;
-    }
+    return <Table columns={columns} dataSource={data} pagination={false} />;
 }
+
+render(App);
 ```
 
 ## Demos
@@ -83,60 +83,53 @@ class App extends React.Component {
 For tables, the two most basic parameters are `dataSource` and `columns`, the former is the data item, the latter is the configuration of each column, both are array types.
 
 ```jsx live=true noInline=true dir="column"
-import React from 'react';
-import { Table } from '@douyinfe/semi-ui';
+function App() {
+    const columns = [
+        {
+            title: 'Name',
+            dataIndex: 'name',
+            render: (text, record, index) => {
+                console.log(text, record, index);
+                return <a>{text}</a>;
+            },
+        },
+        {
+            title: 'Age',
+            dataIndex: 'age',
+        },
+        {
+            title: 'Address',
+            dataIndex: 'address',
+        },
+    ];
+    const data = [
+        {
+            key: '1',
+            name: 'John Brown',
+            age: 32,
+            address: 'New York No. 1 Lake Park, New York No. 1 Lake Park',
+        },
+        {
+            key: '2',
+            name: 'Jim Green',
+            age: 42,
+            address: 'London No. 1 Lake Park',
+        },
+        {
+            key: '3',
+            name: 'Joe Black',
+            age: 32,
+            address: 'Sidney No. 1 Lake Park',
+        },
+        {
+            key: '4',
+            name: 'Michael James',
+            age: 99,
+            address: 'Sidney No. 1 Lake Park',
+        },
+    ];
 
-class App extends React.Component {
-    constructor() {
-        this.columns = [
-            {
-                title: 'Name',
-                dataIndex: 'name',
-                render: (text, record, index) => {
-                    console.log(text, record, index);
-                    return <a>{text}</a>;
-                },
-            },
-            {
-                title: 'Age',
-                dataIndex: 'age',
-            },
-            {
-                title: 'Address',
-                dataIndex: 'address',
-            },
-        ];
-        this.data = [
-            {
-                key: '1',
-                name: 'John Brown',
-                age: 32,
-                address: 'New York No. 1 Lake Park, New York No. 1 Lake Park',
-            },
-            {
-                key: '2',
-                name: 'Jim Green',
-                age: 42,
-                address: 'London No. 1 Lake Park',
-            },
-            {
-                key: '3',
-                name: 'Joe Black',
-                age: 32,
-                address: 'Sidney No. 1 Lake Park',
-            },
-            {
-                key: '4',
-                name: 'Michael James',
-                age: 99,
-                address: 'Sidney No. 1 Lake Park',
-            },
-        ];
-    }
-
-    render() {
-        return <Table columns={this.columns} dataSource={this.data} Pagination={false} />;
-    }
+    return <Table columns={columns} dataSource={data} pagination={false} />;
 }
 
 render(App);
@@ -158,53 +151,52 @@ import { Table } from '@douyinfe/semi-ui';
 
 const { Column } = Table;
 
-class App extends React.Component {
-    constructor() {
-        this.data = [
-            {
-                key: '1',
-                name: 'John Brown',
-                age: 32,
-                address: 'New York No. 1 Lake Park, New York No. 1 Lake Park',
-            },
-            {
-                key: '2',
-                name: 'Jim Green',
-                age: 42,
-                address: 'London No. 1 Lake Park',
-            },
-            {
-                key: '3',
-                name: 'Joe Black',
-                age: 32,
-                address: 'Sidney No. 1 Lake Park',
-            },
-            {
-                key: '4',
-                name: 'Michael James',
-                age: 99,
-                address: 'Sidney No. 1 Lake Park',
-            },
-        ];
-    }
+function App() {
+    const data = [
+        {
+            key: '1',
+            name: 'John Brown',
+            age: 32,
+            address: 'New York No. 1 Lake Park, New York No. 1 Lake Park',
+        },
+        {
+            key: '2',
+            name: 'Jim Green',
+            age: 42,
+            address: 'London No. 1 Lake Park',
+        },
+        {
+            key: '3',
+            name: 'Joe Black',
+            age: 32,
+            address: 'Sidney No. 1 Lake Park',
+        },
+        {
+            key: '4',
+            name: 'Michael James',
+            age: 99,
+            address: 'Sidney No. 1 Lake Park',
+        },
+    ];
 
-    render() {
-        return (
-            <Table dataSource={this.data} Pagination={false}>
-                <Column title="Name" dataIndex="name" key="name" render={(text, record, index) => <a>{text}</a>} />
-                <Column title="Age" dataIndex="age" key="age" />
-                <Column title="Address" dataIndex="address" key="address" />
-            </Table>
-        );
-    }
+    return (
+        <Table dataSource={data} pagination={false}>
+            <Column title="Name" dataIndex="name" key="name" render={(text, record, index) => (<a>{text}</a>)} />
+            <Column title="Age" dataIndex="age" key="age" />
+            <Column title="Address" dataIndex="address" key="address" />
+        </Table>
+    );
 }
 
 render(App);
 ```
 
-### Line Selection Operation
+### Row Selection Operation
 
 This feature can be turned on by passing in `rowSelection`.
+
+- Click the selection box in the header, and all rows in the `dataSource` that are not in the state of `disabled` will be selected. The callback function for selecting all rows is `onSelectAll`;
+- Clicking on the row selection box will select the current row. Its callback function is `onSelect`;
 
 > Note: Be sure to provide a "key" for each row of data that is different from other row values, or use the rowKey parameter to specify a property name as the primary key.
 
@@ -212,65 +204,65 @@ This feature can be turned on by passing in `rowSelection`.
 import React from 'react';
 import { Table } from '@douyinfe/semi-ui';
 
-class App extends React.Component {
-    constructor() {
-        this.columns = [
-            {
-                title: 'Name',
-                dataIndex: 'name',
-                render: text => <a>{text}</a>,
-            },
-            {
-                title: 'Age',
-                dataIndex: 'age',
-            },
-            {
-                title: 'Address',
-                dataIndex: 'address',
-            },
-        ];
-        this.data = [
-            {
-                key: '1',
-                name: 'John Brown',
-                age: 32,
-                address: 'New York No. 1 Lake Park, New York No. 1 Lake Park',
-            },
-            {
-                key: '2',
-                name: 'Jim Green',
-                age: 42,
-                address: 'London No. 1 Lake Park',
-            },
-            {
-                key: '3',
-                name: 'Joe Black',
-                age: 32,
-                address: 'Sidney No. 1 Lake Park',
-            },
-            {
-                key: '4',
-                name: 'Michael James',
-                age: 99,
-                address: 'Sidney No. 1 Lake Park',
-            },
-        ];
-        this.rowSelection = {
-            onChange: (selectedRowKeys, selectedRows) => {
-                console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
-            },
-            getCheckboxProps: record => ({
-                disabled: record.name === 'Michael James', // Column configuration not to be checked
-                name: record.name,
-            }),
-        };
-    }
+function App() {
+    const columns = [
+        {
+            title: 'Name',
+            dataIndex: 'name',
+            render: text => <a>{text}</a>,
+        },
+        {
+            title: 'Age',
+            dataIndex: 'age',
+        },
+        {
+            title: 'Address',
+            dataIndex: 'address',
+        },
+    ];
+    const data = [
+        {
+            key: '1',
+            name: 'John Brown',
+            age: 32,
+            address: 'New York No. 1 Lake Park, New York No. 1 Lake Park',
+        },
+        {
+            key: '2',
+            name: 'Jim Green',
+            age: 42,
+            address: 'London No. 1 Lake Park',
+        },
+        {
+            key: '3',
+            name: 'Joe Black',
+            age: 32,
+            address: 'Sidney No. 1 Lake Park',
+        },
+        {
+            key: '4',
+            name: 'Michael James',
+            age: 99,
+            address: 'Sidney No. 1 Lake Park',
+        },
+    ];
+    const rowSelection = {
+        getCheckboxProps: record => ({
+            disabled: record.name === 'Michael James', // Column configuration not to be checked
+            name: record.name,
+        }),
+        onSelect: (record, selected) => {
+            console.log(`select row: ${selected}`, record);
+        },
+        onSelectAll: (selected, selectedRows) => {
+            console.log(`select all rows: ${selected}`, selectedRows);
+        },
+        onChange: (selectedRowKeys, selectedRows) => {
+            console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
+        },
+    };
 
-    render() {
-        return (
-            <Table columns={this.columns} dataSource={this.data} rowSelection={this.rowSelection} pagination={false} />
-        );
-    }
+    return <Table columns={columns} dataSource={data} rowSelection={rowSelection} pagination={false} />;
 }
 
 render(App);
@@ -281,104 +273,85 @@ render(App);
 Users can use Column.render to customize the rendering of a column of cells, which is suitable for rendering more complex cell content.
 
 ```jsx live=true noInline=true dir="column"
-import React from 'react';
+import React, { useState } from 'react';
 import { Table, Button } from '@douyinfe/semi-ui';
 import { IconDelete } from '@douyinfe/semi-icons';
 
-class TableApp extends React.Component {
-    constructor(props) {
-        super(props);
+const raw = [{
+    key: '1',
+    name: 'John Brown',
+    age: 32,
+    address: 'New York No. 1 Lake Park, New York No. 1 Lake Park',
+},
+{
+    key: '2',
+    name: 'Jim Green',
+    age: 42,
+    address: 'London No. 1 Lake Park',
+},
+{
+    key: '3',
+    name: 'Joe Black',
+    age: 32,
+    address: 'Sidney No. 1 Lake Park',
+},
+{
+    key: '4',
+    name: 'Michael James',
+    age: 99,
+    address: 'Sidney No. 1 Lake Park',
+}];
 
-        this.raw = [
-            {
-                key: '1',
-                name: 'John Brown',
-                age: 32,
-                address: 'New York No. 1 Lake Park, New York No. 1 Lake Park',
-            },
-            {
-                key: '2',
-                name: 'Jim Green',
-                age: 42,
-                address: 'London No. 1 Lake Park',
-            },
-            {
-                key: '3',
-                name: 'Joe Black',
-                age: 32,
-                address: 'Sidney No. 1 Lake Park',
-            },
-            {
-                key: '4',
-                name: 'Michael James',
-                age: 99,
-                address: 'Sidney No. 1 Lake Park',
-            },
-        ];
+function App() {
+    const [dataSource, setData] = useState(raw);
 
-        this.state = {
-            dataSource: [...this.raw],
-            columns: [
-                {
-                    title: 'Name',
-                    dataIndex: 'name',
-                    width: 200,
-                    render: text => <a>{text}</a>,
-                },
-                {
-                    width: 90,
-                    title: 'Age',
-                    dataIndex: 'age',
-                },
-                {
-                    title: 'Address',
-                    dataIndex: 'address',
-                },
-                {
-                    title: 'Operation',
-                    width: 150,
-                    render: (text, record) => (
-                        <Button icon={<IconDelete />}theme="borderless" onClick={() => this.removeRecord(record.key)} />
-                    ),
-                },
-            ],
-        };
-    }
-
-    removeRecord(key) {
-        let dataSource = [...this.state.dataSource];
+    const removeRecord = (key) => {
+        let newDataSource = [...dataSource];
         if (key != null) {
-            let idx = dataSource.findIndex(data => data.key === key);
-
-            // console.log(key, dataSource, idx);
+            let idx = newDataSource.findIndex(data => data.key === key);
 
             if (idx > -1) {
-                dataSource.splice(idx, 1);
-                this.setState({ dataSource });
+                newDataSource.splice(idx, 1);
+                setData(newDataSource);
             }
         }
-    }
+    };
 
-    resetData() {
-        let dataSource = [...this.raw];
-        this.setState({ dataSource });
-    }
+    const columns = [{
+        title: 'Name',
+        dataIndex: 'name',
+        width: 200,
+        render: text => <a>{text}</a>,
+    },
+    {
+        width: 90,
+        title: 'Age',
+        dataIndex: 'age',
+    },
+    {
+        title: 'Address',
+        dataIndex: 'address',
+    },
+    {
+        title: 'Operation',
+        width: 150,
+        render: (text, record) => <Button icon={<IconDelete />} theme='borderless' onClick={() => removeRecord(record.key)} />
+    }];
 
-    render() {
-        let { columns, dataSource } = this.state;
+    const resetData = () => {
+        const newDataSource = [...raw];
+        setData(newDataSource);
+    };
 
-        return (
-            <>
-                <Button onClick={() => this.resetData()} style={{ marginBottom: 10 }}>
-                    Reset
-                </Button>
-                <Table columns={columns} dataSource={dataSource} pagination={false} />
-            </>
-        );
-    }
+    return (
+        <>
+            <Button onClick={resetData} style={{ marginBottom: 10 }}>重置</Button>
+            <Table columns={columns} dataSource={dataSource} pagination={false} />
+        </>
+    );
 }
 
-render(TableApp);
+render(App);
 ```
 
 ### Table With Pagination
@@ -391,166 +364,166 @@ Table paging currently supports two modes: controlled and uncontrolled.
 > Note: The custom `pagination.total` field passed in uncontrolled conditions is supported only after version 0.25.0.
 
 ```jsx live=true noInline=true dir="column"
-import React from 'react';
+import React, { useState, useMemo } from 'react';
 import { Table } from '@douyinfe/semi-ui';
 
-class TableApp extends React.Component {
-    constructor() {
-        this.columns = [
+const columns = [
+    {
+        title: 'Name',
+        dataIndex: 'name',
+        width: 150,
+        filters: [
             {
-                title: 'Name',
-                dataIndex: 'name',
-                width: 150,
-                filters: [
-                    {
-                        text: 'King 3',
-                        value: 'King 3',
-                    },
-                    {
-                        text: 'King 4',
-                        value: 'King 4',
-                    },
-                ],
-                onFilter: (value, record) => record.name.includes(value),
+                text: 'King 3',
+                value: 'King 3',
             },
             {
-                title: 'Age',
-                dataIndex: 'age',
-                width: 150,
-                sorter: (a, b) => (a.age - b.age > 0 ? 1 : -1),
+                text: 'King 4',
+                value: 'King 4',
             },
-            {
-                title: 'Address',
-                dataIndex: 'address',
-            },
-        ];
+        ],
+        onFilter: (value, record) => record.name.includes(value),
+    },
+    {
+        title: 'Age',
+        dataIndex: 'age',
+        width: 150,
+        sorter: (a, b) => a.age - b.age > 0 ? 1 : -1,
+    },
+    {
+        title: 'Address',
+        dataIndex: 'address',
+    },
+];
 
-        this.data = [];
+function App() {
+    const [dataSource, setData] = useState([]);
 
-        this.rowSelection = {
-            onChange: (selectedRowKeys, selectedRows) => {
-                // console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
-            },
-            getCheckboxProps: record => ({
-                disabled: record.name === 'Michael James', // Column configuration not to be checked
-                name: record.name,
-            }),
-        };
+    const rowSelection = useMemo(() => ({
+        onChange: (selectedRowKeys, selectedRows) => {
+            console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
+        },
+        getCheckboxProps: record => ({
+            disabled: record.name === 'Michael James', // Column configuration not to be checked
+            name: record.name,
+        }),
+    }), []);
+    const scroll = useMemo(() => ({ y: 300 }), []);
 
+    const getData = () => {
+        const data = [];
         for (let i = 0; i < 46; i++) {
-            this.data.push({
+            data.push({
                 key: '' + i,
                 name: `Edward King ${i}`,
                 age: 40 + (Math.random() > 0.5 ? 1 : -1) * Math.ceil(i / 3),
                 address: `London, Park Lane no. ${i}`,
             });
         }
+        return data;
+    };
 
-        this.scroll = { y: 300 };
-    }
+    useEffect(() => {
+        const data = getData();
+        setData(data);
+    }, []);
 
-    render() {
-        return (
-            <Table
-                columns={this.columns}
-                dataSource={this.data}
-                rowSelection={this.rowSelection}
-                scroll={this.scroll}
-            />
-        );
-    }
+    return <Table columns={columns} dataSource={dataSource} rowSelection={rowSelection} scroll={scroll} />;
 }
 
-render(TableApp);
+render(App);
 ```
-
-<Notice type="primary" title="Notice">
-    <div>When pagination is an object type, literal is not recommended because it causes the table to render to its original state (it looks like the pager is not working). Please try to define reference type parameters outside the render method. If hooks are used, please use useMemo or useState for storage.</div>
-</Notice>
 
 ### Pull Remote Data
 
 Under normal circumstances, the data is often not obtained at one time. We will retrieve the data from the interface when clicking on the page number, filter or sort button. In this case, please use **Controlled mode** To handle pagination. The user needs to pass in the `pagination.currentPage` field, where the rendering of the pagination component depends entirely on the incoming pagination object.
 
+<Notice type="primary" title="Notice">
+    <div>1. When pagination is an object type, literal is not recommended because it causes the table to render to its original state (it looks like the pager is not working). Please try to define reference type parameters outside the render method. If hooks are used, please use useMemo or useState for storage.</div>
+    <div>2. In the controlled mode, Table will not paginate dataSource, please pass in current page data to dataSource</div>
+</Notice>
+
 ```jsx live=true noInline=true dir="column"
 import React from 'react';
 import { Table } from '@douyinfe/semi-ui';
 
-class App extends React.Component {
-    constructor() {
-        const columns = [
-            {
-                title: 'Name',
-                dataIndex: 'name',
-            },
-            {
-                title: 'Age',
-                dataIndex: 'age',
-            },
-            {
-                title: 'Address',
-                dataIndex: 'address',
-            },
-        ];
+const columns = [
+    {
+        title: 'Name',
+        dataIndex: 'name',
+    },
+    {
+        title: 'Age',
+        dataIndex: 'age',
+    },
+    {
+        title: 'Address',
+        dataIndex: 'address',
+    },
+];
 
-        const data = [];
-        for (let i = 0; i < 46; i++) {
-            data.push({
-                key: '' + i,
-                name: `Edward King ${i}`,
-                age: 32,
-                address: `London, Park Lane no. ${i}`,
-            });
-        }
-        this.data = data;
+const getData = () => {
+    const data = [];
+    for (let i = 0; i < 46; i++) {
+        data.push({
+            key: '' + i,
+            name: `Edward King ${i}`,
+            age: 40 + (Math.random() > 0.5 ? 1 : -1) * Math.ceil(i / 3),
+            address: `London, Park Lane no. ${i}`,
+        });
+    }
+    return data;
+};
 
-        this.fetchData = (currentPage = 1) => {
-            // console.log(`FetchData currentPage: `, currentPage);
-            this.setState({ loading: true });
-            let pagination = { ...this.state.pagination, currentPage };
-            return new Promise((res, rej) => {
-                setTimeout(() => {
-                    let dataSource = this.data.slice(
-                        (currentPage - 1) * pagination.pageSize,
-                        currentPage * pagination.pageSize
-                    );
-                    res(dataSource);
-                }, 1500);
-            }).then(dataSource => {
-                // console.log('Request data: ', dataSource);
-                this.setState({
-                    loading: false,
-                    pagination,
-                    dataSource,
-                });
-            });
-        };
+const data = getData();
 
-        this.state = {
-            loading: false,
-            columns,
-            pagination: {
-                currentPage: 1,
+const pageSize = 5;
+
+function App() {
+    const [dataSource, setData] = useState([]);
+    const [loading, setLoading] = useState(false);
+    const [currentPage, setPage] = useState(1);
+
+    const fetchData = (currentPage = 1) => {
+        setLoading(true);
+        setPage(currentPage);
+        return new Promise((res, rej) => {
+            setTimeout(() => {
+                const data = getData();
+                let dataSource = data.slice((currentPage - 1) * pageSize, currentPage * pageSize);
+                res(dataSource);
+            }, 300);
+        }).then(dataSource => {
+            setLoading(false);
+            setData(dataSource);
+        });
+    };
+
+    const handlePageChange = page => {
+        fetchData(page);
+    };
+
+    useEffect(() => {
+        fetchData();
+    }, []);
+
+    return (
+        <Table
+            columns={columns}
+            dataSource={dataSource}
+            pagination={{
+                currentPage,
                 pageSize: 5,
                 total: data.length,
-                onPageChange: page => this.fetchData(page),
-            },
-            dataSource: [],
-        };
-    }
-
-    componentDidMount() {
-        this.fetchData();
-    }
-
-    render() {
-        let { columns, dataSource, pagination, loading } = this.state;
-
-        return <Table columns={columns} dataSource={dataSource} pagination={pagination} loading={loading} />;
-    }
+                onPageChange: handlePageChange
+            }}
+            loading={loading}
+        />
+    );
 }
 
 render(App);
+
 ```
 
 ### Fixed Column or Head
@@ -565,86 +538,78 @@ You can fix the column by setting the Fixed attribute of the column and scoll.x,
 import React from 'react';
 import { Table, Tooltip, Tag } from '@douyinfe/semi-ui';
 
-class TableApp extends React.Component {
-    constructor() {
-        this.columns = [
-            {
-                title: 'Name',
-                dataIndex: 'name',
-                width: 150,
-                fixed: true,
-                filters: [
-                    {
-                        text: 'King 3',
-                        value: 'King 3',
-                    },
-                    {
-                        text: 'King 4',
-                        value: 'King 4',
-                    },
-                ],
-                onFilter: (value, record) => record.name.includes(value),
-            },
-            {
-                title: 'Age',
-                dataIndex: 'age',
-                width: 150,
-                sorter: (a, b) => (a.age - b.age > 0 ? 1 : -1),
-            },
-            {
-                title: 'Address',
-                width: 200,
-                dataIndex: 'address',
-            },
-            {
-                title: 'Description',
-                // width: 400,
-                dataIndex: 'description',
-            },
-            {
-                fixed: 'right',
-                width: 250,
-                render: (text, record) => (
-                    <Tooltip content={record.description}>
-                        <Tag color="green">Show Info</Tag>
-                    </Tooltip>
-                ),
-            },
-        ];
-
-        this.data = [];
-
-        this.rowSelection = {
-            onChange: (selectedRowKeys, selectedRows) => {
-                // console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
-            },
-            getCheckboxProps: record => ({
-                disabled: record.name === 'Michael James', // Column configuration not to be checked
-                name: record.name,
-            }),
-        };
-
-        for (let i = 0; i < 46; i++) {
-            let age = 40 + (Math.random() > 0.5 ? 1 : -1) * Math.ceil(i / 3);
-            let name = `Edward King ${i}`;
-            this.data.push({
-                key: '' + i,
-                name,
-                age,
-                address: `London, Park Lane no. ${i}`,
-                description: `My name is ${name}, I am ${age} years old, living in New York No. ${i + 1} Lake Park.`,
-            });
+function App() {
+    const columns = [
+        {
+            title: 'Name',
+            dataIndex: 'name',
+            width: 150,
+            fixed: true,
+            filters: [
+                {
+                    text: 'King 3',
+                    value: 'King 3',
+                },
+                {
+                    text: 'King 4',
+                    value: 'King 4',
+                },
+            ],
+            onFilter: (value, record) => record.name.includes(value),
+        },
+        {
+            title: 'Age',
+            dataIndex: 'age',
+            width: 150,
+            sorter: (a, b) => a.age - b.age > 0 ? 1 : -1,
+        },
+        {
+            title: 'Address',
+            width: 200,
+            dataIndex: 'address',
+        },
+        {
+            title: 'Description',
+            // width: 400,
+            dataIndex: 'description',
+        },
+        {
+            fixed: 'right',
+            width: 250,
+            render: (text, record) => <Tooltip content={record.description}><Tag color='green'>Show Info</Tag></Tooltip>
         }
+    ];
 
-        this.scroll = { y: 300, x: 1500 };
+    const data = [];
+
+    const rowSelection = {
+        onChange: (selectedRowKeys, selectedRows) => {
+            console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
+        },
+        getCheckboxProps: record => ({
+            disabled: record.name === 'Michael James', // Column configuration not to be checked
+            name: record.name,
+        }),
+    };
+
+    for (let i = 0; i < 46; i++) {
+        let age = 40 + (Math.random() > 0.5 ? 1 : -1) * Math.ceil(i/3);
+        let name = `Edward King ${i}`;
+        data.push({
+            key: '' + i,
+            name,
+            age,
+            address: `London, Park Lane no. ${i}`,
+            description: `My name is ${name}, I am ${age} years old, living in New York No. ${i+1} Lake Park.`,
+        });
     }
 
-    render() {
-        return <Table columns={this.columns} dataSource={this.data} scroll={this.scroll} />;
-    }
+    const scroll = { y: 300, x: 1500 };
+
+    return <Table columns={columns} dataSource={data} scroll={scroll} />;
 }
 
-render(TableApp);
+render(App);
 ```
 
 ### Table Header With Sorting and Filtering Function
@@ -657,85 +622,79 @@ Filters and sorting controls are integrated inside the table, and users can pass
 import React from 'react';
 import { Table } from '@douyinfe/semi-ui';
 
-class App extends React.Component {
-    constructor() {
-        this.state = {
-            sortColumns: [
+function App() {
+    const sortColumns = [
+        {
+            title: 'Name',
+            dataIndex: 'name',
+            filters: [
                 {
-                    title: 'Name',
-                    dataIndex: 'name',
-                    filters: [
-                        {
-                            text: 'Joe',
-                            value: 'Joe',
-                        },
-                        {
-                            text: 'Jim',
-                            value: 'Jim',
-                        },
-                    ],
-                    onFilter: (value, record) => record.name.indexOf(value) === 0,
-                    sorter: (a, b) => a.name.length - b.name.length,
+                    text: 'Joe',
+                    value: 'Joe',
                 },
                 {
-                    title: 'Age',
-                    dataIndex: 'age',
-                    sorter: (a, b) => (a.age - b.age > 0 ? 1 : -1),
-                },
-                {
-                    title: 'Address',
-                    dataIndex: 'address',
-                    filters: [
-                        {
-                            text: 'London',
-                            value: 'London',
-                        },
-                        {
-                            text: 'New York',
-                            value: 'New York',
-                        },
-                    ],
-                    filterMultiple: false,
-                    onFilter: (value, record) => record.address.indexOf(value) === 0,
-                    sorter: (a, b) => a.address.length - b.address.length,
+                    text: 'Jim',
+                    value: 'Jim',
                 },
             ],
-            sortData: [
+            onFilter: (value, record) => record.name.indexOf(value) === 0,
+            sorter: (a, b) => a.name.length - b.name.length,
+        },
+        {
+            title: 'Age',
+            dataIndex: 'age',
+            sorter: (a, b) => a.age - b.age > 0 ? 1 : -1,
+        },
+        {
+            title: 'Address',
+            dataIndex: 'address',
+            filters: [
                 {
-                    key: '1',
-                    name: 'John Brown',
-                    age: 32,
-                    address: 'New York No. 1 Lake Park',
+                    text: 'London',
+                    value: 'London',
                 },
                 {
-                    key: '2',
-                    name: 'Jim Green',
-                    age: 42,
-                    address: 'London No. 1 Lake Park',
-                },
-                {
-                    key: '3',
-                    name: 'Joe Black',
-                    age: 32,
-                    address: 'Sidney No. 1 Lake Park',
-                },
-                {
-                    key: '4',
-                    name: 'Jim Red',
-                    age: 32,
-                    address: 'London No. 2 Lake Park',
+                    text: 'New York',
+                    value: 'New York',
                 },
             ],
-        };
+            filterMultiple: false,
+            onFilter: (value, record) => record.address.indexOf(value) === 0,
+            sorter: (a, b) => a.address.length - b.address.length,
+        },
+    ];
+    const sortData = [
+        {
+            key: '1',
+            name: 'John Brown',
+            age: 32,
+            address: 'New York No. 1 Lake Park',
+        },
+        {
+            key: '2',
+            name: 'Jim Green',
+            age: 42,
+            address: 'London No. 1 Lake Park',
+        },
+        {
+            key: '3',
+            name: 'Joe Black',
+            age: 32,
+            address: 'Sidney No. 1 Lake Park',
+        },
+        {
+            key: '4',
+            name: 'Jim Red',
+            age: 32,
+            address: 'London No. 2 Lake Park',
+        },
+    ];
 
-        this.onChange = (...args) => {
-            console.log('Table changed to:', ...args);
-        };
-    }
+    const onChange = (...args) => {
+        console.log('Table changed to:', ...args);
+    };
 
-    render() {
-        return <Table columns={this.state.sortColumns} dataSource={this.state.sortData} onChange={this.onChange} />;
-    }
+    return <Table columns={sortColumns} dataSource={sortData} onChange={onChange} />;
 }
 
 render(App);
@@ -759,94 +718,88 @@ This method accepts an `Object` input parameter, and the meaning of each attribu
 import React from 'react';
 import { Table, Tag, Tooltip, Dropdown } from '@douyinfe/semi-ui';
 
-class CustomDropdownItem extends React.Component {
-    constructor(props = {}) {
-        super(props);
-
-        this.columns = [
-            {
-                title: 'Name',
-                dataIndex: 'name',
-                width: 150,
-                fixed: true,
-                filterMultiple: false,
-                filters: [
-                    {
-                        text: 'Code 45',
-                        value: '45',
-                    },
-                    {
-                        text: 'King 4',
-                        value: 'King 4',
-                    },
-                ],
-                onFilter: (value, record) => record.name.includes(value),
-                renderFilterDropdownItem: ({ text, checked, onChange }) => (
-                    <Dropdown.Item onClick={onChange} active={checked}>
-                        {text}
-                    </Dropdown.Item>
-                ),
-                filterDropdownProps: {
-                    showTick: true,
+function App() {
+    const columns = [
+        {
+            title: 'Name',
+            dataIndex: 'name',
+            width: 150,
+            fixed: true,
+            filterMultiple: false,
+            filters: [
+                {
+                    text: 'Code 45',
+                    value: '45',
                 },
+                {
+                    text: 'King 4',
+                    value: 'King 4',
+                },
+            ],
+            onFilter: (value, record) => record.name.includes(value),
+            renderFilterDropdownItem: ({ text, checked, onChange }) => (
+                <Dropdown.Item onClick={onChange} active={checked}>
+                    {text}
+                </Dropdown.Item>
+            ),
+            filterDropdownProps: {
+                showTick: true,
             },
-            {
-                title: 'Age',
-                dataIndex: 'age',
-                width: 150,
-                sorter: (a, b) => (a.age - b.age > 0 ? 1 : -1),
-            },
-            {
-                title: 'Address',
-                width: 200,
-                dataIndex: 'address',
-            },
-            {
-                title: 'Description',
-                dataIndex: 'description',
-            },
-            {
-                fixed: 'right',
-                width: 250,
-                render: (text, record) => (
-                    <Tooltip content={record.description}>
-                        <Tag color="green">Show Info</Tag>
-                    </Tooltip>
-                ),
-            },
-        ];
+        },
+        {
+            title: 'Age',
+            dataIndex: 'age',
+            width: 150,
+            sorter: (a, b) => (a.age - b.age > 0 ? 1 : -1),
+        },
+        {
+            title: 'Address',
+            width: 200,
+            dataIndex: 'address',
+        },
+        {
+            title: 'Description',
+            dataIndex: 'description',
+        },
+        {
+            fixed: 'right',
+            width: 250,
+            render: (text, record) => (
+                <Tooltip content={record.description}>
+                    <Tag color="green">Hover To Show Info</Tag>
+                </Tooltip>
+            ),
+        },
+    ];
 
-        this.data = [];
+    const data = [];
 
-        for (let i = 0; i < 46; i++) {
-            let age = 40 + (Math.random() > 0.5 ? 1 : -1) * Math.ceil(i / 3);
-            let name = `Edward King ${i}`;
-            this.data.push({
-                key: '' + i,
-                name,
-                age,
-                address: `London, Park Lane no. ${i}`,
-                description: `My name is ${name}, I am ${age} years old, living in New York No. ${i + 1} Lake Park.`,
-            });
-        }
-
-        this.scroll = { y: 400, x: '150%' };
+    for (let i = 0; i < 46; i++) {
+        let age = 40 + (Math.random() > 0.5 ? 1 : -1) * Math.ceil(i / 3);
+        let name = `Edward King ${i}`;
+        data.push({
+            key: '' + i,
+            name,
+            age,
+            address: `London, Park Lane no. ${i}`,
+            description: `My name is ${name}, I am ${age} years old, living in New York No. ${i + 1} Lake Park.`,
+        });
     }
 
-    render() {
-        return <Table columns={this.columns} dataSource={this.data} scroll={this.scroll} />;
-    }
+    const scroll = { y: 400, x: '150%' };
+
+    return <Table columns={columns} dataSource={data} scroll={scroll} />;
 }
 
-render(CustomDropdownItem);
+render(App);
 ```
 
 ### A Table That Can Be Expanded
 
-> Notice:
->
-> -   Since version `0.27.0`, the unfold button will be rendered in the same cell as the first column, and you can open a separate column of rendering by passing in `hideExpandedColumn = {false}`.
-> -   Be sure to provide a "key" for each row of data that is different from the other row values, or use the rowKey parameter to specify an attribute name as the primary key.
+<Notice type="primary" title="Note">
+    <div>1.  Since version `0.27.0`, the unfold button will be rendered in the same cell as the first column, and you can open a separate column of rendering by passing in `hideExpandedColumn = {false}`.</div>
+    <div>2. Be sure to provide a "key" for each row of data that is different from the other row values, or use the rowKey parameter to specify an attribute name as the primary key.</div>
+</Notice>
 
 #### A Common Table That Can Be Expanded
 
@@ -859,69 +812,60 @@ If you need to render a table that can be expanded, in addition to the need to p
 import React from 'react';
 import { Table } from '@douyinfe/semi-ui';
 
-class App extends React.Component {
-    constructor() {
-        this.expandColumns = [
-            { title: 'Name', dataIndex: 'name', key: 'name' },
-            { title: 'Age', dataIndex: 'age', key: 'age' },
-            { title: 'Address', dataIndex: 'address', key: 'address' },
-            {
-                title: 'Action',
-                dataIndex: '',
-                key: 'x',
-                render: () => <a>Delete</a>,
-            },
-        ];
+function App() {
+    const expandColumns = [
+        { title: 'Name', dataIndex: 'name', key: 'name' },
+        { title: 'Age', dataIndex: 'age', key: 'age' },
+        { title: 'Address', dataIndex: 'address', key: 'address' },
+        {
+            title: 'Action',
+            dataIndex: '',
+            key: 'x',
+            render: () => <a>Delete</a>,
+        },
+    ];
 
-        this.rowSelection = {
-            onChange: (selectedRowKeys, selectedRows) => {
-                // console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
-            },
-            getCheckboxProps: record => ({
-                disabled: record.name === 'Michael James', // Column configuration not to be checked
-                name: record.name,
-            }),
-        };
+    const rowSelection = {
+        onChange: (selectedRowKeys, selectedRows) => {
+            console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
+        },
+        getCheckboxProps: record => ({
+            disabled: record.name === 'Michael James', // Column configuration not to be checked
+            name: record.name,
+        }),
+    };
 
-        this.expandData = [
-            {
-                name: 'John Brown',
-                age: 32,
-                address: 'New York No. 1 Lake Park',
-                description: 'My name is John Brown, I am 32 years old, living in New York No. 1 Lake Park.',
-            },
-            {
-                name: 'Jim Green',
-                age: 42,
-                address: 'London No. 1 Lake Park',
-                description: 'My name is Jim Green, I am 42 years old, living in London No. 1 Lake Park.',
-            },
-            {
-                name: 'Joe Black',
-                age: 32,
-                address: 'Sidney No. 1 Lake Park',
-                description: 'My name is Joe Black, I am 32 years old, living in Sidney No. 1 Lake Park.',
-            },
-        ];
+    const expandData = [
+        {
+            name: 'John Brown',
+            age: 32,
+            address: 'New York No. 1 Lake Park',
+            description: 'My name is John Brown, I am 32 years old, living in New York No. 1 Lake Park.',
+        },
+        {
+            name: 'Jim Green',
+            age: 42,
+            address: 'London No. 1 Lake Park',
+            description: 'My name is Jim Green, I am 42 years old, living in London No. 1 Lake Park.',
+        },
+        {
+            name: 'Joe Black',
+            age: 32,
+            address: 'Sidney No. 1 Lake Park',
+            description: 'My name is Joe Black, I am 32 years old, living in Sidney No. 1 Lake Park.',
+        },
+    ];
 
-        this.expandRowRender = (record, index) =>
-            index < 2 ? (
-                <Table columns={this.expandColumns} dataSource={this.expandData} />
-            ) : (
-                <p>{record.description}</p>
-            );
-    }
-    render() {
-        return (
-            <Table
-                rowKey={'name'}
-                columns={this.expandColumns}
-                rowSelection={this.rowSelection}
-                expandedRowRender={this.expandRowRender}
-                dataSource={this.expandData}
-            />
-        );
-    }
+    const expandRowRender = (record, index) => index < 2 ? (<Table columns={expandColumns} dataSource={expandData} />) : <p>{record.description}</p>;
+    return (
+        <Table
+            rowKey={'name'}
+            columns={expandColumns}
+            rowSelection={rowSelection}
+            expandedRowRender={expandRowRender}
+            dataSource={expandData}
+        />
+    );
 }
 
 render(App);
@@ -937,66 +881,61 @@ By default, the expansion button will be rendered in the same cell as the first 
 import React from 'react';
 import { Table } from '@douyinfe/semi-ui';
 
-class App extends React.Component {
-    constructor() {
-        this.expandColumns = [
-            { title: 'Name', dataIndex: 'name', key: 'name' },
-            { title: 'Age', dataIndex: 'age', key: 'age' },
-            { title: 'Address', dataIndex: 'address', key: 'address' },
-            {
-                expandIcon: true,
-                title: 'Action',
-                dataIndex: '',
-                key: 'x',
-                render: () => <a>Delete</a>,
-            },
-        ];
+function App() {
+    const expandColumns = [
+        { title: 'Name', dataIndex: 'name', key: 'name' },
+        { title: 'Age', dataIndex: 'age', key: 'age' },
+        { title: 'Address', dataIndex: 'address', key: 'address' },
+        {
+            title: 'Action',
+            dataIndex: '',
+            key: 'x',
+            render: () => <a>Delete</a>,
+        },
+    ];
 
-        this.rowSelection = {
-            onChange: (selectedRowKeys, selectedRows) => {
-                // console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
-            },
-            getCheckboxProps: record => ({
-                disabled: record.name === 'Michael James', // Column configuration not to be checked
-                name: record.name,
-            }),
-        };
+    const rowSelection = {
+        onChange: (selectedRowKeys, selectedRows) => {
+            console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
+        },
+        getCheckboxProps: record => ({
+            disabled: record.name === 'Michael James', // Column configuration not to be checked
+            name: record.name,
+        }),
+    };
 
-        this.expandData = [
-            {
-                name: 'John Brown',
-                age: 32,
-                address: 'New York No. 1 Lake Park',
-                description: 'My name is John Brown, I am 32 years old, living in New York No. 1 Lake Park.',
-            },
-            {
-                name: 'Jim Green',
-                age: 42,
-                address: 'London No. 1 Lake Park',
-                description: 'My name is Jim Green, I am 42 years old, living in London No. 1 Lake Park.',
-            },
-            {
-                name: 'Joe Black',
-                age: 32,
-                address: 'Sidney No. 1 Lake Park',
-                description: 'My name is Joe Black, I am 32 years old, living in Sidney No. 1 Lake Park.',
-            },
-        ];
+    const expandData = [
+        {
+            name: 'John Brown',
+            age: 32,
+            address: 'New York No. 1 Lake Park',
+            description: 'My name is John Brown, I am 32 years old, living in New York No. 1 Lake Park.',
+        },
+        {
+            name: 'Jim Green',
+            age: 42,
+            address: 'London No. 1 Lake Park',
+            description: 'My name is Jim Green, I am 42 years old, living in London No. 1 Lake Park.',
+        },
+        {
+            name: 'Joe Black',
+            age: 32,
+            address: 'Sidney No. 1 Lake Park',
+            description: 'My name is Joe Black, I am 32 years old, living in Sidney No. 1 Lake Park.',
+        },
+    ];
 
-        this.expandRowRender = record => <p>{record.description}</p>;
-    }
-    render() {
-        return (
-            <Table
-                hideExpandedColumn={false}
-                rowKey={'name'}
-                columns={this.expandColumns}
-                rowSelection={this.rowSelection}
-                expandedRowRender={this.expandRowRender}
-                dataSource={this.expandData}
-            />
-        );
-    }
+    const expandRowRender = record => <p>{record.description}</p>;
+    return (
+        <Table
+            hideExpandedColumn={false}
+            rowKey={'name'}
+            columns={expandColumns}
+            rowSelection={rowSelection}
+            expandedRowRender={expandRowRender}
+            dataSource={expandData}
+        />
+    );
 }
 
 render(App);
@@ -1012,67 +951,62 @@ You can pass the row Expandable method, enter the reference as record, and deter
 import React from 'react';
 import { Table } from '@douyinfe/semi-ui';
 
-class App extends React.Component {
-    constructor() {
-        this.expandColumns = [
-            { title: 'Name', dataIndex: 'name', key: 'name' },
-            { title: 'Age', dataIndex: 'age', key: 'age' },
-            { title: 'Address', dataIndex: 'address', key: 'address' },
-            {
-                expandIcon: true,
-                title: 'Action',
-                dataIndex: '',
-                key: 'x',
-                render: () => <a>Delete</a>,
-            },
-        ];
+function App() {
+    const expandColumns = [
+        { title: 'Name', dataIndex: 'name', key: 'name' },
+        { title: 'Age', dataIndex: 'age', key: 'age' },
+        { title: 'Address', dataIndex: 'address', key: 'address' },
+        {
+            title: 'Action',
+            dataIndex: '',
+            key: 'x',
+            render: () => <a>Delete</a>,
+        },
+    ];
 
-        this.rowSelection = {
-            onChange: (selectedRowKeys, selectedRows) => {
-                // console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
-            },
-            getCheckboxProps: record => ({
-                disabled: record.name === 'Michael James', // Column configuration not to be checked
-                name: record.name,
-            }),
-        };
+    const rowSelection = {
+        onChange: (selectedRowKeys, selectedRows) => {
+            // console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
+        },
+        getCheckboxProps: record => ({
+            disabled: record.name === 'Michael James', // Column configuration not to be checked
+            name: record.name,
+        }),
+    };
 
-        this.expandData = [
-            {
-                name: 'John Brown',
-                age: 32,
-                address: 'New York No. 1 Lake Park',
-                description: 'My name is John Brown, I am 32 years old, living in New York No. 1 Lake Park.',
-            },
-            {
-                name: 'Jim Green',
-                age: 42,
-                address: 'London No. 1 Lake Park',
-                description: 'My name is Jim Green, I am 42 years old, living in London No. 1 Lake Park.',
-            },
-            {
-                name: 'Joe Black',
-                age: 32,
-                address: 'Sidney No. 1 Lake Park',
-                description: 'My name is Joe Black, I am 32 years old, living in Sidney No. 1 Lake Park.',
-            },
-        ];
+    const expandData = [
+        {
+            name: 'John Brown',
+            age: 32,
+            address: 'New York No. 1 Lake Park',
+            description: 'My name is John Brown, I am 32 years old, living in New York No. 1 Lake Park.',
+        },
+        {
+            name: 'Jim Green',
+            age: 42,
+            address: 'London No. 1 Lake Park',
+            description: 'My name is Jim Green, I am 42 years old, living in London No. 1 Lake Park.',
+        },
+        {
+            name: 'Joe Black',
+            age: 32,
+            address: 'Sidney No. 1 Lake Park',
+            description: 'My name is Joe Black, I am 32 years old, living in Sidney No. 1 Lake Park.',
+        },
+    ];
 
-        this.expandRowRender = record => <p>{record.description}</p>;
-    }
-    render() {
-        return (
-            <Table
-                hideExpandedColumn={false}
-                rowKey={'name'}
-                columns={this.expandColumns}
-                rowExpandable={record => record.name !== 'Jim Green'}
-                rowSelection={this.rowSelection}
-                expandedRowRender={this.expandRowRender}
-                dataSource={this.expandData}
-            />
-        );
-    }
+    const expandRowRender = record => <p>{record.description}</p>;
+    return (
+        <Table
+            hideExpandedColumn={false}
+            rowKey={'name'}
+            columns={expandColumns}
+            rowExpandable={ record => record.name !== 'Jim Green' }
+            rowSelection={rowSelection}
+            expandedRowRender={expandRowRender}
+            dataSource={expandData}
+        />
+    );
 }
 
 render(App);
@@ -1092,7 +1026,7 @@ The table supports the display of tree data and is automatically displayed as a 
 import React from 'react';
 import { Table } from '@douyinfe/semi-ui';
 
-const Demo = () => {
+function App() {
     const columns = [
         {
             title: 'Name',
@@ -1178,10 +1112,16 @@ const Demo = () => {
         },
     ];
 
-    return <Table columns={columns} defaultExpandAllRows dataSource={data} />;
+    return (
+        <Table
+            columns={columns}
+            defaultExpandAllRows
+            dataSource={data}
+        />
+    );
 };
 
-render(Demo);
+render(App);
 ```
 
 #### Rows of Interchangeable Tree Data
@@ -1878,66 +1818,60 @@ But you need to pay attention to some parameters:
 -   `resizable` is set to `true` or an `object`
 -   Any column in `columns` that requires a telescopic function should specify the `width`field (if not passed, the column does not have a telescopic function and its column width will be automatically adjusted by the browser)
 
+> It is not recommended to use with fixed columns at the same time. Fixed columns need to specify `scroll.x`, which stipulates that the table has a width range, and the flexible column will expand the column width, which may cause the table to be misaligned
+
 ```jsx live=true noInline=true dir="column"
 import React from 'react';
 import { Table, Tooltip, Tag } from '@douyinfe/semi-ui';
 
-class ResizableDemo extends React.Component {
-    constructor() {
-        this.columns = [
-            {
-                title: 'Name',
-                dataIndex: 'name',
-                width: 150,
-            },
-            {
-                title: 'Age',
-                dataIndex: 'age',
-                width: 150,
-                sorter: (a, b) => (a.age - b.age > 0 ? 1 : -1),
-            },
-            {
-                title: 'Address',
-                width: 200,
-                dataIndex: 'address',
-            },
-            {
-                render: (text, record) => (
-                    <Tooltip content={record.description}>
-                        <Tag color="green">Show Info</Tag>
-                    </Tooltip>
-                ),
-            },
-        ];
-
-        this.data = [];
-
-        this.rowSelection = {
-            onChange: (selectedRowKeys, selectedRows) => {
-                // console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
-            },
-            getCheckboxProps: record => ({
-                disabled: record.name === 'Michael James', // Column configuration not to be checked
-                name: record.name,
-            }),
-        };
-
-        for (let i = 0; i < 46; i++) {
-            let age = 40 + (Math.random() > 0.5 ? 1 : -1) * Math.ceil(i / 3);
-            let name = `Edward King ${i}`;
-            this.data.push({
-                key: '' + i,
-                name,
-                age,
-                address: `London, Park Lane no. ${i}`,
-                description: `My name is ${name}, I am ${age} years old, living in New York No. ${i + 1} Lake Park.`,
-            });
+function ResizableDemo() {
+    const columns = [
+        {
+            title: 'Name',
+            dataIndex: 'name',
+            width: 150,
+        },
+        {
+            title: 'Age',
+            dataIndex: 'age',
+            width: 150,
+            sorter: (a, b) => a.age - b.age > 0 ? 1 : -1,
+        },
+        {
+            title: 'Address',
+            width: 200,
+            dataIndex: 'address',
+        },
+        {
+            render: (text, record) => <Tooltip content={record.description}><Tag color='green'>Show Info</Tag></Tooltip>
         }
+    ];
+
+    const data = [];
+
+    const rowSelection = {
+        onChange: (selectedRowKeys, selectedRows) => {
+            console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
+        },
+        getCheckboxProps: record => ({
+            disabled: record.name === 'Michael James', // Column configuration not to be checked
+            name: record.name,
+        }),
+    };
+
+    for (let i = 0; i < 46; i++) {
+        let age = 40 + (Math.random() > 0.5 ? 1 : -1) * Math.ceil(i/3);
+        let name = `Edward King ${i}`;
+        data.push({
+            key: '' + i,
+            name,
+            age,
+            address: `London, Park Lane no. ${i}`,
+            description: `My name is ${name}, I am ${age} years old, living in New York No. ${i+1} Lake Park.`,
+        });
     }
 
-    render() {
-        return <Table columns={this.columns} dataSource={this.data} resizable bordered />;
-    }
+    return <Table columns={columns} dataSource={data} resizable bordered />;
 }
 
 render(ResizableDemo);
@@ -1958,88 +1892,74 @@ import React from 'react';
 import { Table, Tooltip, Tag } from '@douyinfe/semi-ui';
 import { addClass, removeClass } from '@douyinfe/semi-foundation/utils';
 
-class ResizableDemo extends React.Component {
-    constructor() {
-        this.columns = [
-            {
-                title: 'Name',
-                dataIndex: 'name',
-                width: 150,
-            },
-            {
-                title: 'Age',
-                dataIndex: 'age',
-                width: 150,
-            },
-            {
-                title: 'Address',
-                width: 200,
-                dataIndex: 'address',
-            },
-            {
-                render: (text, record) => (
-                    <Tooltip content={record.description}>
-                        <Tag color="green">Show Info</Tag>
-                    </Tooltip>
-                ),
-            },
-        ];
+const pagination = {
+    pageSize: 5
+};
 
-        this.data = [];
-
-        this.rowSelection = {
-            onChange: (selectedRowKeys, selectedRows) => {
-                // console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
-            },
-            getCheckboxProps: record => ({
-                disabled: record.name === 'Michael James', // Column configuration not to be checked
-                name: record.name,
-            }),
-        };
-
-        for (let i = 0; i < 46; i++) {
-            let age = 40 + (Math.random() > 0.5 ? 1 : -1) * Math.ceil(i / 3);
-            let name = `Edward King ${i}`;
-            this.data.push({
-                key: '' + i,
-                name,
-                age,
-                address: `London, Park Lane no. ${i}`,
-                description: `My name is ${name}, I am ${age} years old, living in New York No. ${i + 1} Lake Park.`,
-            });
+function ResizableDemo() {
+    const columns = [
+        {
+            title: 'Name',
+            dataIndex: 'name',
+            width: 150,
+        },
+        {
+            title: 'Age',
+            dataIndex: 'age',
+            width: 150,
+        },
+        {
+            title: 'Address',
+            width: 200,
+            dataIndex: 'address',
+        },
+        {
+            render: (text, record) => <Tooltip content={record.description}><Tag color='green'>Show Info</Tag></Tooltip>
         }
+    ];
 
-        this.resizable = {
-            onResizeStart: curColumn => {
-                const className = addClass(curColumn.className, 'my-resizing');
+    const data = [];
 
-                return { className };
-            },
-            onResizeStop: curColumn => {
-                const className = removeClass(curColumn.className, 'my-resizing');
+    const rowSelection = {
+        onChange: (selectedRowKeys, selectedRows) => {
+            // console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
+        },
+        getCheckboxProps: record => ({
+            disabled: record.name === 'Michael James', // Column configuration not to be checked
+            name: record.name,
+        }),
+    };
 
-                return { className };
-            },
-        };
-
-        this.pagination = {
-            pageSize: 5,
-        };
+    for (let i = 0; i < 46; i++) {
+        let age = 40 + (Math.random() > 0.5 ? 1 : -1) * Math.ceil(i/3);
+        let name = `Edward King ${i}`;
+        data.push({
+            key: '' + i,
+            name,
+            age,
+            address: `London, Park Lane no. ${i}`,
+            description: `My name is ${name}, I am ${age} years old, living in New York No. ${i+1} Lake Park.`,
+        });
     }
 
-    render() {
-        return (
-            <div id="components-table-demo-resizable-column">
-                <Table
-                    columns={this.columns}
-                    dataSource={this.data}
-                    resizable={this.resizable}
-                    pagination={this.pagination}
-                    bordered
-                />
-            </div>
-        );
-    }
+    const resizable = {
+        onResizeStart: curColumn => {
+            const className = addClass(curColumn.className, 'my-resizing');
+
+            return { className };
+        },
+        onResizeStop: curColumn => {
+            const className = removeClass(curColumn.className, 'my-resizing');
+
+            return { className };
+        }
+    };
+
+    return (
+        <div id="components-table-demo-resizable-column">
+            <Table columns={columns} dataSource={data} resizable={resizable} pagination={pagination} bordered />
+        </div>
+    );
 }
 
 render(ResizableDemo);
@@ -2330,83 +2250,82 @@ Virtualization can be used for scenes that need to render large-scale data. You 
 The following is an example of rendering 1000 pieces of data.
 
 ```jsx live=true noInline=true dir="column"
-import React from 'react';
-import { Table, Tag, Tooltip } from '@douyinfe/semi-ui';
+import React, { useRef } from 'react';
+import { Table, Tag, Tooltip, Button } from '@douyinfe/semi-ui';
 
-class VirtualizedFixedDemo extends React.Component {
-    constructor(props = {}) {
-        super(props);
+function VirtualizedFixedDemo() {
+    let virtualizedListRef = useRef()
+    const columns = [
+        {
+            title: 'Name',
+            dataIndex: 'name',
+            width: 150,
+            fixed: true,
+            filters: [
+                {
+                    text: 'Code 45',
+                    value: '45',
+                },
+                {
+                    text: 'King 4',
+                    value: 'King 4',
+                },
+            ],
+            onFilter: (value, record) => record.name.includes(value),
+        },
+        {
+            title: 'Age',
+            dataIndex: 'age',
+            width: 150,
+            sorter: (a, b) => (a.age - b.age > 0 ? 1 : -1),
+        },
+        {
+            title: 'Address',
+            // width: 200,
+            dataIndex: 'address',
+        },
+        {
+            fixed: 'right',
+            width: 250,
+            render: (text, record) => (
+                <Tooltip content={record.description}>
+                    <Tag color="green">Show Info</Tag>
+                </Tooltip>
+            ),
+        },
+    ];
 
-        this.columns = [
-            {
-                title: 'Name',
-                dataIndex: 'name',
-                width: 150,
-                fixed: true,
-                filters: [
-                    {
-                        text: 'Code 45',
-                        value: '45',
-                    },
-                    {
-                        text: 'King 4',
-                        value: 'King 4',
-                    },
-                ],
-                onFilter: (value, record) => record.name.includes(value),
-            },
-            {
-                title: 'Age',
-                dataIndex: 'age',
-                width: 150,
-                sorter: (a, b) => (a.age - b.age > 0 ? 1 : -1),
-            },
-            {
-                title: 'Address',
-                // width: 200,
-                dataIndex: 'address',
-            },
-            {
-                fixed: 'right',
-                width: 250,
-                render: (text, record) => (
-                    <Tooltip content={record.description}>
-                        <Tag color="green">Show Info</Tag>
-                    </Tooltip>
-                ),
-            },
-        ];
+    const data = [];
 
-        this.data = [];
-
-        for (let i = 0; i < 1000; i++) {
-            let age = 40 + (Math.random() > 0.5 ? 1 : -1) * (i % 9);
-            let name = `Edward King ${i}`;
-            this.data.push({
-                key: '' + i,
-                name,
-                age,
-                address: `London, Park Lane no. ${i}`,
-                description: `My name is ${name}, I am ${age} years old, living in New York No. ${i + 1} Lake Park.`,
-            });
-        }
-
-        this.scroll = { y: 400, x: 1600 };
-        this.style = { width: 750, margin: '0 auto' };
+    for (let i = 0; i < 1000; i++) {
+        let age = 40 + (Math.random() > 0.5 ? 1 : -1) * (i % 9);
+        let name = `Edward King ${i}`;
+        data.push({
+            key: '' + i,
+            name,
+            age,
+            address: `London, Park Lane no. ${i}`,
+            description: `My name is ${name}, I am ${age} years old, living in New York No. ${i + 1} Lake Park.`,
+        });
     }
 
-    render() {
-        return (
+    const scroll = { y: 400, x: 1600 };
+    const style = { width: 750, margin: '0 auto' };
+
+    return (
+        <>
+            <Button onClick={() => virtualizedListRef.current.scrollToItem(100)}>Scroll to 100</Button>
             <Table
                 pagination={false}
-                columns={this.columns}
-                dataSource={this.data}
-                scroll={this.scroll}
-                style={this.style}
+                columns={columns}
+                dataSource={data}
+                scroll={scroll}
+                style={style}
                 virtualized
+                getVirtualizedListRef={ref => virtualizedListRef = ref}
             />
-        );
-    }
+        </>
+    );
 }
 
 render(VirtualizedFixedDemo);
@@ -2418,86 +2337,62 @@ Based on the virtualization feature, we can achieve infinite scroll loading data
 
 ```jsx live=true noInline=true dir="column"
 import React from 'react';
-import { Table, Tag, Tooltip } from '@douyinfe/semi-ui';
+import { Table, Tooltip, Tag } from '@douyinfe/semi-ui';
 
-class InfiniteScrollDemo extends React.Component {
-    constructor(props = {}) {
-        super(props);
-
-        this.state = {
-            data: [],
-        };
-
-        this.columns = [
+const columns = [
+    {
+        title: 'Name',
+        dataIndex: 'name',
+        width: 150,
+        fixed: true,
+        filters: [
             {
-                title: 'Name',
-                dataIndex: 'name',
-                width: 150,
-                fixed: true,
-                filters: [
-                    {
-                        text: 'Code 45',
-                        value: '45',
-                    },
-                    {
-                        text: 'King 4',
-                        value: 'King 4',
-                    },
-                ],
-                onFilter: (value, record) => record.name.includes(value),
+                text: 'Code 45',
+                value: '45',
             },
             {
-                title: 'Age',
-                dataIndex: 'age',
-                width: 150,
-                sorter: (a, b) => (a.age - b.age > 0 ? 1 : -1),
+                text: 'King 4',
+                value: 'King 4',
             },
-            {
-                title: 'Address',
-                // width: 200,
-                dataIndex: 'address',
-            },
-            {
-                fixed: 'right',
-                width: 250,
-                render: (text, record) => (
-                    <Tooltip content={record.description}>
-                        <Tag color="green">Show Info</Tag>
-                    </Tooltip>
-                ),
-            },
-        ];
+        ],
+        onFilter: (value, record) => record.name.includes(value),
+    },
+    {
+        title: 'Age',
+        dataIndex: 'age',
+        width: 150,
+        sorter: (a, b) => (a.age - b.age > 0 ? 1 : -1),
+    },
+    {
+        title: 'Address',
+        // width: 200,
+        dataIndex: 'address',
+    },
+    {
+        fixed: 'right',
+        width: 250,
+        render: (text, record) => (
+            <Tooltip content={record.description}>
+                <Tag color="green">Show Info</Tag>
+            </Tooltip>
+        ),
+    },
+];
 
-        this.scroll = { y: 600, x: 1000 };
-        this.style = { width: 750, margin: '0 auto' };
+function InfiniteScrollDemo() {
+    const [data, setData] = useState([]);
 
-        const itemSize = 56;
-        this.virtualized = {
-            itemSize,
-            onScroll: ({ scrollDirection, scrollOffset, scrollUpdateWasRequested }) => {
-                const { data } = this.state;
+    const scroll = { y: 600, x: 1000 };
+    const style = { width: 750, margin: '0 auto' };
 
-                if (
-                    scrollDirection === 'forward' &&
-                    scrollOffset >= (data.length - Math.ceil(this.scroll.y / itemSize) * 1.5) * itemSize &&
-                    !scrollUpdateWasRequested
-                ) {
-                    this.loadMore();
-                }
-            },
-        };
-
-        this.loadMore = this.loadMore.bind(this);
-    }
-
-    loadMore() {
+    const loadMore = () => {
         const pageSize = 20; // load 20 records every time
-        const data = [...this.state.data];
-        const currentLenght = data.length;
-        for (let i = currentLenght; i < currentLenght + pageSize; i++) {
+        const newData = [...data];
+        const currentLength = data.length;
+        for (let i = currentLength; i < currentLength + pageSize; i++) {
             let age = 40 + (Math.random() > 0.5 ? 1 : -1) * (i % 9);
             let name = `Edward King ${i}`;
-            data.push({
+            newData.push({
                 key: '' + i,
                 name,
                 age,
@@ -2505,25 +2400,37 @@ class InfiniteScrollDemo extends React.Component {
                 description: `My name is ${name}, I am ${age} years old, living in New York No. ${i + 1} Lake Park.`,
             });
         }
-        this.setState({ data });
-    }
+        setData(newData);
+    };
 
-    componentDidMount() {
-        this.loadMore();
-    }
+    const itemSize = 56;
+    const virtualized = {
+        itemSize,
+        onScroll: ({ scrollDirection, scrollOffset, scrollUpdateWasRequested }) => {
+            if (
+                scrollDirection === 'forward' &&
+                scrollOffset >= (data.length - Math.ceil(scroll.y / itemSize) * 1.5) * itemSize &&
+                !scrollUpdateWasRequested
+            ) {
+                loadMore();
+            }
+        },
+    };
 
-    render() {
-        return (
-            <Table
-                pagination={false}
-                columns={this.columns}
-                dataSource={this.state.data}
-                scroll={this.scroll}
-                style={this.style}
-                virtualized={this.virtualized}
-            />
-        );
-    }
+    useEffect(() => {
+        loadMore();
+    }, []);
+
+    return (
+        <Table
+            pagination={false}
+            columns={columns}
+            dataSource={data}
+            scroll={scroll}
+            style={style}
+            virtualized={virtualized}
+        />
+    );
 }
 
 render(InfiniteScrollDemo);
@@ -3747,8 +3654,8 @@ type Filter = {
 | title            | Custom List Selection Box Title                                                 | string                                                                                       | ReactNode |                    |
 | width            | Custom list selection box width                                                 | string                                                                                       | number    |                    |
 | onChange         | A callback in the event of a change in the selected item                        | (selectedRowKeys: number[]\|string[], selectedRows: RecordType[]) => void                        |           |                    |
-| onSelect         | The user manually selects / unselects the callback of a line                    | (record: RecordType, selected: boolean, selectedRows: RecordType[], nativeEvent: MouseEvent) => void |           |                    |
-| onSelectAll      | User manually selects / unselects callbacks for all rows                        | (selected: boolean, selectedRows: RecordType[], changedRows: RecordType[]) => void                   |           |                    |
+| onSelect         | Callback when the user manually clicks the selection box of a row               | (record: RecordType, selected: boolean, selectedRows: RecordType[], nativeEvent: MouseEvent) => void |           |                    |
+| onSelectAll      | The user manually clicks the callback of the header selection box, and all optional rows in the dataSource will be selected/unselected                        | (selected: boolean, selectedRows: RecordType[], changedRows: RecordType[]) => void                   |           |                    |
 
 ## scroll
 
@@ -3848,7 +3755,13 @@ function Demo() {
     
     It can be controlled by column.onHeaderCell and column.onCell.
 
+- **How is Table implemented, I want to know more details?**
+
+    Please click<a href="https://bytedance.feishu.cn/docs/doccnqLgNefWGMZHFz7j70GKqpY" target="_blank">Semi Table component design</a>。
+
 See more Table FAQ and demos, please click <a href="https://bytedance.feishu.cn/docs/doccnsYk1qUmsIDP1ihJ9zjG0Ch" target="_blank">Table FAQ</a>
+
+
 
 <!-- ## Related Material
 ```material

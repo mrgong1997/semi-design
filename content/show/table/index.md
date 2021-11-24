@@ -15,277 +15,35 @@ brief: 展示行列数据。
 
 ## 如何使用
 
-往Table传入表头 `columns` 和数据 `dataSource` 进行渲染。
+往 Table 传入表头 `columns` 和数据 `dataSource` 进行渲染。
 
-> 请为 dataSource 中的每个数据项提供一个与其他数据项值不同的 "key"，或者使用 rowKey 参数指定一个作为主键的属性名，表格的行选择、展开等绝大多数行操作功能都会使用到。
+> 请为 `dataSource` 中的每个数据项提供一个与其他数据项值不同的 `key`，或者使用 `rowKey` 参数指定一个作为主键的属性名，表格的行选择、展开等绝大多数行操作功能都会使用到。
 
 ```jsx import
 import React from 'react';
 import { Table } from '@douyinfe/semi-ui';
 
-class App extends React.Component {
-    constructor() {
-        this.columns = [
-            {
-                title: 'Name',
-                dataIndex: 'name',
-                render: text => <a>{text}</a>,
+function App() {
+    const columns = [
+        {
+            title: 'Name',
+            dataIndex: 'name',
+            render: (text, record, index) => {
+                console.log(text, record, index);
+                return <a>{text}</a>;
             },
-            {
-                title: 'Age',
-                dataIndex: 'age',
-            },
-            {
-                title: 'Address',
-                dataIndex: 'address',
-            },
-        ];
-
-        this.data = [
-            {
-                key: '1',
-                name: 'John Brown',
-                age: 32,
-                address: 'New York No. 1 Lake Park, New York No. 1 Lake Park',
-            },
-            {
-                key: '2',
-                name: 'Jim Green',
-                age: 42,
-                address: 'London No. 1 Lake Park',
-            },
-            {
-                key: '3',
-                name: 'Joe Black',
-                age: 32,
-                address: 'Sidney No. 1 Lake Park',
-            },
-            {
-                key: '4',
-                name: 'Michael James',
-                age: 99,
-                address: 'Sidney No. 1 Lake Park',
-            },
-        ];
-    }
-
-    render() {
-        <Table columns={this.columns} dataSource={this.data} />;
-    }
-}
-```
-
-## 代码演示
-
-### 基本表格
-
-对于表格，最基本的两个参数为 `dataSource` 和 `columns`，前者为数据项，后者为每列的配置，二者皆为数组类型。
-
-```jsx live=true noInline=true dir="column"
-import React from 'react';
-import { Table } from '@douyinfe/semi-ui';
-
-class App extends React.Component {
-    constructor() {
-        this.columns = [
-            {
-                title: 'Name',
-                dataIndex: 'name',
-                render: (text, record, index) => {
-                    console.log(text, record, index)
-                    return <a>{text}</a>;
-                },
-            },
-            {
-                title: 'Age',
-                dataIndex: 'age',
-            },
-            {
-                title: 'Address',
-                dataIndex: 'address',
-            },
-        ];
-        this.data = [
-            {
-                key: '1',
-                name: 'John Brown',
-                age: 32,
-                address: 'New York No. 1 Lake Park, New York No. 1 Lake Park',
-            },
-            {
-                key: '2',
-                name: 'Jim Green',
-                age: 42,
-                address: 'London No. 1 Lake Park',
-            },
-            {
-                key: '3',
-                name: 'Joe Black',
-                age: 32,
-                address: 'Sidney No. 1 Lake Park',
-            },
-            {
-                key: '4',
-                name: 'Michael James',
-                age: 99,
-                address: 'Sidney No. 1 Lake Park',
-            },
-        ];
-    }
-
-    render() {
-        return <Table columns={this.columns} dataSource={this.data} pagination={false} />;
-    }
-}
-
-render(App);
-```
-
-### JSX 写法
-
-你也可以使用 JSX 语法定义 `columns`，注意 Table 仅支持 `columns` 的 JSX 语法定义。你不能够使用任何组件包裹 `Table.Column` 组件。
-
-<Notice type="primary" title="注意事项">
-    <div>1. JSX 写法的表格暂时不支持 resizable 功能；</div>
-    <div>2. 使用 JSX 写法时，请不要与配置写法同时使用；如果同时使用，仅配置写法生效，不会进行聚合操作。</div>
-</Notice>
-
-```jsx live=true noInline=true dir="column"
-import React from 'react';
-import { Table } from '@douyinfe/semi-ui';
-
-const { Column } = Table;
-
-class App extends React.Component {
-    constructor() {
-        this.data = [
-            {
-                key: '1',
-                name: 'John Brown',
-                age: 32,
-                address: 'New York No. 1 Lake Park, New York No. 1 Lake Park',
-            },
-            {
-                key: '2',
-                name: 'Jim Green',
-                age: 42,
-                address: 'London No. 1 Lake Park',
-            },
-            {
-                key: '3',
-                name: 'Joe Black',
-                age: 32,
-                address: 'Sidney No. 1 Lake Park',
-            },
-            {
-                key: '4',
-                name: 'Michael James',
-                age: 99,
-                address: 'Sidney No. 1 Lake Park',
-            },
-        ];
-    }
-
-    render() {
-        return (
-            <Table dataSource={this.data} pagination={false}>
-                <Column title="Name" dataIndex="name" key="name" render={(text, record, index) => (<a>{text}</a>)} />
-                <Column title="Age" dataIndex="age" key="age" />
-                <Column title="Address" dataIndex="address" key="address" />
-            </Table>
-        );
-    }
-}
-
-render(App);
-```
-
-### 行选择操作
-
-往Table传入 rowSelection 即可打开此功能。
-
-**注意：**请务必为每行数据提供一个与其他行值不同的 "key"，或者使用 rowKey 参数指定一个作为主键的属性名。
-
-```jsx live=true noInline=true dir="column"
-import React from 'react';
-import { Table } from '@douyinfe/semi-ui';
-
-class App extends React.Component {
-    constructor() {
-        this.columns = [
-            {
-                title: 'Name',
-                dataIndex: 'name',
-                render: text => <a>{text}</a>,
-            },
-            {
-                title: 'Age',
-                dataIndex: 'age',
-            },
-            {
-                title: 'Address',
-                dataIndex: 'address',
-            },
-        ];
-        this.data = [
-            {
-                key: '1',
-                name: 'John Brown',
-                age: 32,
-                address: 'New York No. 1 Lake Park, New York No. 1 Lake Park',
-            },
-            {
-                key: '2',
-                name: 'Jim Green',
-                age: 42,
-                address: 'London No. 1 Lake Park',
-            },
-            {
-                key: '3',
-                name: 'Joe Black',
-                age: 32,
-                address: 'Sidney No. 1 Lake Park',
-            },
-            {
-                key: '4',
-                name: 'Michael James',
-                age: 99,
-                address: 'Sidney No. 1 Lake Park',
-            },
-        ];
-        this.rowSelection = {
-            onChange: (selectedRowKeys, selectedRows) => {
-                console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
-            },
-            getCheckboxProps: record => ({
-                disabled: record.name === 'Michael James', // Column configuration not to be checked
-                name: record.name,
-            }),
-        };
-    }
-
-    render() {
-        return <Table columns={this.columns} dataSource={this.data} rowSelection={this.rowSelection} pagination={false} />;
-    }
-}
-
-render(App);
-```
-
-### 自定义渲染
-
-用户可以使用 Column.render 来自定义某一列单元格的渲染，该功能适用于需要渲染较为复杂的单元格内容时。
-
-```jsx live=true noInline=true dir="column"
-import React from 'react';
-import { Table, Button } from '@douyinfe/semi-ui';
-import { IconDelete } from '@douyinfe/semi-icons';
-
-class TableApp extends React.Component {
-    constructor(props) {
-        super(props);
-
-        this.raw = [{
+        },
+        {
+            title: 'Age',
+            dataIndex: 'age',
+        },
+        {
+            title: 'Address',
+            dataIndex: 'address',
+        },
+    ];
+    const data = [
+        {
             key: '1',
             name: 'John Brown',
             age: 32,
@@ -308,226 +66,461 @@ class TableApp extends React.Component {
             name: 'Michael James',
             age: 99,
             address: 'Sidney No. 1 Lake Park',
-        }];
+        },
+    ];
 
-        this.state = {
-            dataSource: [...this.raw],
-            columns: [{
-                title: 'Name',
-                dataIndex: 'name',
-                width: 200,
-                render: text => <a>{text}</a>,
-            },
-            {
-                width: 90,
-                title: 'Age',
-                dataIndex: 'age',
-            },
-            {
-                title: 'Address',
-                dataIndex: 'address',
-            },
-            {
-                title: 'Operation',
-                width: 150,
-                render: (text, record) => <Button icon={<IconDelete />} theme='borderless' onClick={() => this.removeRecord(record.key)} />
-            }],
-        };
-    }
-
-    removeRecord(key) {
-        let dataSource = [...this.state.dataSource];
-        if(key != null) {
-            let idx = dataSource.findIndex(data => data.key === key);
-
-             if(idx > -1) {
-                 dataSource.splice(idx, 1)
-                 this.setState({ dataSource });
-             }
-        }
-    }
-
-    resetData() {
-        let dataSource = [...this.raw];
-        this.setState({ dataSource });
-    }
-
-    render() {
-        let { columns, dataSource } = this.state;
-
-        return (
-            <>
-                <Button onClick={() => this.resetData()} style={{ marginBottom: 10 }}>重置</Button>
-                <Table columns={columns} dataSource={dataSource} pagination={false} />
-            </>
-        );
-    }
+    return <Table columns={columns} dataSource={data} pagination={false} />;
 }
 
-render(TableApp);
+render(App);
+```
 
+## 代码演示
+
+### 基本表格
+
+对于表格，最基本的两个参数为 `dataSource` 和 `columns`，前者为数据项，后者为每列的配置，二者皆为数组类型。
+
+```jsx live=true noInline=true dir="column"
+import React from 'react';
+import { Table } from '@douyinfe/semi-ui';
+
+function App() {
+    const columns = [
+        {
+            title: 'Name',
+            dataIndex: 'name',
+            render: (text, record, index) => {
+                console.log(text, record, index);
+                return <a>{text}</a>;
+            },
+        },
+        {
+            title: 'Age',
+            dataIndex: 'age',
+        },
+        {
+            title: 'Address',
+            dataIndex: 'address',
+        },
+    ];
+    const data = [
+        {
+            key: '1',
+            name: 'John Brown',
+            age: 32,
+            address: 'New York No. 1 Lake Park, New York No. 1 Lake Park',
+        },
+        {
+            key: '2',
+            name: 'Jim Green',
+            age: 42,
+            address: 'London No. 1 Lake Park',
+        },
+        {
+            key: '3',
+            name: 'Joe Black',
+            age: 32,
+            address: 'Sidney No. 1 Lake Park',
+        },
+        {
+            key: '4',
+            name: 'Michael James',
+            age: 99,
+            address: 'Sidney No. 1 Lake Park',
+        },
+    ];
+
+    return <Table columns={columns} dataSource={data} pagination={false} />;
+}
+
+render(App);
+```
+
+### JSX 写法
+
+你也可以使用 JSX 语法定义 `columns`，注意 Table 仅支持 `columns` 的 JSX 语法定义。你不能够使用任何组件包裹 `Table.Column` 组件。
+
+<Notice type="primary" title="注意事项">
+    <div>1. JSX 写法的表格暂时不支持 resizable 功能；</div>
+    <div>2. 使用 JSX 写法时，请不要与配置写法同时使用；如果同时使用，仅配置写法生效，不会进行聚合操作。</div>
+</Notice>
+
+```jsx live=true noInline=true dir="column"
+import React from 'react';
+import { Table } from '@douyinfe/semi-ui';
+
+const { Column } = Table;
+
+function App() {
+    const data = [
+        {
+            key: '1',
+            name: 'John Brown',
+            age: 32,
+            address: 'New York No. 1 Lake Park, New York No. 1 Lake Park',
+        },
+        {
+            key: '2',
+            name: 'Jim Green',
+            age: 42,
+            address: 'London No. 1 Lake Park',
+        },
+        {
+            key: '3',
+            name: 'Joe Black',
+            age: 32,
+            address: 'Sidney No. 1 Lake Park',
+        },
+        {
+            key: '4',
+            name: 'Michael James',
+            age: 99,
+            address: 'Sidney No. 1 Lake Park',
+        },
+    ];
+
+    return (
+        <Table dataSource={data} pagination={false}>
+            <Column title="Name" dataIndex="name" key="name" render={(text, record, index) => (<a>{text}</a>)} />
+            <Column title="Age" dataIndex="age" key="age" />
+            <Column title="Address" dataIndex="address" key="address" />
+        </Table>
+    );
+}
+
+render(App);
+```
+
+### 行选择操作
+
+往 Table 传入 [rowSelection](#rowSelection) 即可打开此功能。
+
+- 点击表头的选择框，会选择 `dataSource` 里所有不是 `disabled` 状态的行。选择所有行回调函数为 `onSelectAll`；
+- 点击行的选择框会选中当前行。它的回调函数为 `onSelect`；
+  
+> **注意：**请务必为每行数据提供一个与其他行值不同的 `key`，或者使用 `rowKey` 参数指定一个作为主键的属性名。
+
+```jsx live=true noInline=true dir="column"
+import React from 'react';
+import { Table } from '@douyinfe/semi-ui';
+
+function App() {
+    const columns = [
+        {
+            title: 'Name',
+            dataIndex: 'name',
+            render: text => <a>{text}</a>,
+        },
+        {
+            title: 'Age',
+            dataIndex: 'age',
+        },
+        {
+            title: 'Address',
+            dataIndex: 'address',
+        },
+    ];
+    const data = [
+        {
+            key: '1',
+            name: 'John Brown',
+            age: 32,
+            address: 'New York No. 1 Lake Park, New York No. 1 Lake Park',
+        },
+        {
+            key: '2',
+            name: 'Jim Green',
+            age: 42,
+            address: 'London No. 1 Lake Park',
+        },
+        {
+            key: '3',
+            name: 'Joe Black',
+            age: 32,
+            address: 'Sidney No. 1 Lake Park',
+        },
+        {
+            key: '4',
+            name: 'Michael James',
+            age: 99,
+            address: 'Sidney No. 1 Lake Park',
+        },
+    ];
+    const rowSelection = {
+        getCheckboxProps: record => ({
+            disabled: record.name === 'Michael James', // Column configuration not to be checked
+            name: record.name,
+        }),
+        onSelect: (record, selected) => {
+            console.log(`select row: ${selected}`, record);
+        },
+        onSelectAll: (selected, selectedRows) => {
+            console.log(`select all rows: ${selected}`, selectedRows);
+        },
+        onChange: (selectedRowKeys, selectedRows) => {
+            console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
+        },
+    };
+
+    return <Table columns={columns} dataSource={data} rowSelection={rowSelection} pagination={false} />;
+}
+
+render(App);
+```
+
+### 自定义渲染
+
+用户可以使用 `Column.render` 来自定义某一列单元格的渲染，该功能适用于需要渲染较为复杂的单元格内容时。
+
+```jsx live=true noInline=true dir="column"
+import React, { useState } from 'react';
+import { Table, Button } from '@douyinfe/semi-ui';
+import { IconDelete } from '@douyinfe/semi-icons';
+
+const raw = [{
+    key: '1',
+    name: 'John Brown',
+    age: 32,
+    address: 'New York No. 1 Lake Park, New York No. 1 Lake Park',
+},
+{
+    key: '2',
+    name: 'Jim Green',
+    age: 42,
+    address: 'London No. 1 Lake Park',
+},
+{
+    key: '3',
+    name: 'Joe Black',
+    age: 32,
+    address: 'Sidney No. 1 Lake Park',
+},
+{
+    key: '4',
+    name: 'Michael James',
+    age: 99,
+    address: 'Sidney No. 1 Lake Park',
+}];
+
+function App() {
+    const [dataSource, setData] = useState(raw);
+
+    const removeRecord = (key) => {
+        let newDataSource = [...dataSource];
+        if (key != null) {
+            let idx = newDataSource.findIndex(data => data.key === key);
+
+            if (idx > -1) {
+                newDataSource.splice(idx, 1);
+                setData(newDataSource);
+            }
+        }
+    };
+
+    const columns = [{
+        title: 'Name',
+        dataIndex: 'name',
+        width: 200,
+        render: text => <a>{text}</a>,
+    },
+    {
+        width: 90,
+        title: 'Age',
+        dataIndex: 'age',
+    },
+    {
+        title: 'Address',
+        dataIndex: 'address',
+    },
+    {
+        title: 'Operation',
+        width: 150,
+        render: (text, record) => <Button icon={<IconDelete />} theme='borderless' onClick={() => removeRecord(record.key)} />
+    }];
+
+    const resetData = () => {
+        const newDataSource = [...raw];
+        setData(newDataSource);
+    };
+
+    return (
+        <>
+            <Button onClick={resetData} style={{ marginBottom: 10 }}>重置</Button>
+            <Table columns={columns} dataSource={dataSource} pagination={false} />
+        </>
+    );
+}
+
+render(App);
 ```
 
 ### 带分页组件的表格
 
 表格分页目前支持两种模式：受控和非受控模式。
 
--   受控模式下，分页的状态完全由外部传入，依据为是否往Table传入了 pagination.currentPage 这个字段。一般情况下，受控模式适用于远程拉取数据并渲染。
--   非受控模式下，Table 默认会将传入的 dataSource 长度作为 total 传给 Pagination 组件，当然你也可以传入一个 total 字段来覆盖 Table 组件的取值，不过我们并不推荐用户在非受控分页模式下传入这个字段。
+- 受控模式下，分页的状态完全由外部传入，依据为是否往 Table 传入了 `pagination.currentPage` 这个字段。一般情况下，受控模式适用于远程拉取数据并渲染。
+- 非受控模式下，Table 默认会将传入的 `dataSource` 长度作为 `total` 传给 Pagination 组件，当然你也可以传入一个 `total` 字段来覆盖 Table 组件的取值，不过我们并不推荐用户在非受控分页模式下传入这个字段。
 
-**注意：**非受控条件下传入自定义的 pagination.total 字段在 >=0.25.0 版本后才支持
-
-```jsx live=true noInline=true dir="column"
-import React from 'react';
-import { Table } from '@douyinfe/semi-ui';
-
-class TableApp extends React.Component {
-    constructor() {
-        this.columns = [
-            {
-                title: 'Name',
-                dataIndex: 'name',
-                width: 150,
-                filters: [
-                    {
-                        text: 'King 3',
-                        value: 'King 3',
-                    },
-                    {
-                        text: 'King 4',
-                        value: 'King 4',
-                    },
-                ],
-                onFilter: (value, record) => record.name.includes(value),
-            },
-            {
-                title: 'Age',
-                dataIndex: 'age',
-                width: 150,
-                sorter: (a, b) => a.age - b.age > 0 ? 1 : -1,
-            },
-            {
-                title: 'Address',
-                dataIndex: 'address',
-            },
-        ];
-
-        this.data = [];
-
-        this.rowSelection = {
-            onChange: (selectedRowKeys, selectedRows) => {
-                // console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
-            },
-            getCheckboxProps: record => ({
-                disabled: record.name === 'Michael James', // Column configuration not to be checked
-                name: record.name,
-            }),
-        };
-
-        for (let i = 0; i < 46; i++) {
-            this.data.push({
-                key: '' + i,
-                name: `Edward King ${i}`,
-                age: 40 + (Math.random() > 0.5 ? 1 : -1) * Math.ceil(i/3),
-                address: `London, Park Lane no. ${i}`,
-            });
-        }
-
-        this.scroll = { y: 300 };
-
-    }
-
-    render() {
-        return <Table columns={this.columns} dataSource={this.data} rowSelection={this.rowSelection} scroll={this.scroll} />;
-    }
-}
-
-render(TableApp);
-```
-
-<Notice type="primary" title="注意事项">
-    <div>pagination 如果是对象类型则不推荐使用字面量写法，原因是字面量写法会导致表格渲染至初始状态（看起来像是分页器没有生效）。请尽量将引用型参数定义在 render 方法之外，如果使用了 hooks 请利用 useMemo 或 useState 进行存储。</div>
-</Notice>
-
-### 拉取远程数据
-
-正常情况下，数据往往不是一次性获取的，我们会在点击页码、过滤器或者排序按钮时从接口重新获取数据，这种情况下请使用**受控模式**来处理分页。用户需往Table传入 pagination.currentPage 这个字段，此时分页组件的渲染完全依赖于传入的 pagination 对象。
+> 非受控时传入自定义的 `pagination.total` 字段在 >=0.25.0 版本后才支持
 
 ```jsx live=true noInline=true dir="column"
-import React from 'react';
+import React, { useState, useMemo } from 'react';
 import { Table } from '@douyinfe/semi-ui';
 
-class App extends React.Component {
-    constructor() {
-        const columns = [
+const columns = [
+    {
+        title: 'Name',
+        dataIndex: 'name',
+        width: 150,
+        filters: [
             {
-                title: 'Name',
-                dataIndex: 'name',
+                text: 'King 3',
+                value: 'King 3',
             },
             {
-                title: 'Age',
-                dataIndex: 'age',
+                text: 'King 4',
+                value: 'King 4',
             },
-            {
-                title: 'Address',
-                dataIndex: 'address',
-            },
-        ];
+        ],
+        onFilter: (value, record) => record.name.includes(value),
+    },
+    {
+        title: 'Age',
+        dataIndex: 'age',
+        width: 150,
+        sorter: (a, b) => a.age - b.age > 0 ? 1 : -1,
+    },
+    {
+        title: 'Address',
+        dataIndex: 'address',
+    },
+];
 
+function App() {
+    const [dataSource, setData] = useState([]);
+
+    const rowSelection = useMemo(() => ({
+        onChange: (selectedRowKeys, selectedRows) => {
+            console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
+        },
+        getCheckboxProps: record => ({
+            disabled: record.name === 'Michael James', // Column configuration not to be checked
+            name: record.name,
+        }),
+    }), []);
+    const scroll = useMemo(() => ({ y: 300 }), []);
+
+    const getData = () => {
         const data = [];
         for (let i = 0; i < 46; i++) {
             data.push({
                 key: '' + i,
                 name: `Edward King ${i}`,
-                age: 32,
+                age: 40 + (Math.random() > 0.5 ? 1 : -1) * Math.ceil(i / 3),
                 address: `London, Park Lane no. ${i}`,
             });
         }
-        this.data = data;
+        return data;
+    };
 
-        this.fetchData = (currentPage = 1) => {
-            // console.log(`FetchData currentPage: `, currentPage);
-            this.setState({loading: true});
-            let pagination = { ...this.state.pagination, currentPage };
-            return new Promise((res, rej) => {
-                setTimeout(() => {
-                    let dataSource = this.data.slice((currentPage - 1) * pagination.pageSize, currentPage * pagination.pageSize);
-                    res(dataSource);
-                }, 1500);
-            }).then(dataSource => {
-                // console.log('Request data: ', dataSource);
-                this.setState({
-                    loading: false,
-                    pagination,
-                    dataSource,
-                });
-            });
-        }
+    useEffect(() => {
+        const data = getData();
+        setData(data);
+    }, []);
 
-        this.state = {
-            loading: false,
-            columns,
-            pagination: {
-                currentPage: 1,
+    return <Table columns={columns} dataSource={dataSource} rowSelection={rowSelection} scroll={scroll} />;
+}
+
+render(App);
+```
+
+### 拉取远程数据
+
+正常情况下，数据往往不是一次性获取的，我们会在点击页码、过滤器或者排序按钮时从接口重新获取数据，这种情况下请使用**受控模式**来处理分页。用户需往 Table 传入 `pagination.currentPage` 这个字段，此时分页组件的渲染完全依赖于传入的 `pagination` 对象。
+
+<Notice type="primary" title="注意事项">
+    <div>1. 非受控时，pagination 如果是对象类型则不推荐使用字面量写法，原因是字面量写法会导致表格渲染至初始状态（看起来像是分页器没有生效）。请尽量将引用型参数定义在 render 方法之外，如果使用了 hooks 请利用 useMemo 或 useState 进行存储；</div>
+    <div>2. 受控模式下，Table 不会对 dataSource 分页，请给 dataSource 传入当前页数据</div>
+</Notice>
+
+```jsx live=true noInline=true dir="column"
+import React from 'react';
+import { Table } from '@douyinfe/semi-ui';
+
+const columns = [
+    {
+        title: 'Name',
+        dataIndex: 'name',
+    },
+    {
+        title: 'Age',
+        dataIndex: 'age',
+    },
+    {
+        title: 'Address',
+        dataIndex: 'address',
+    },
+];
+
+const getData = () => {
+    const data = [];
+    for (let i = 0; i < 46; i++) {
+        data.push({
+            key: '' + i,
+            name: `Edward King ${i}`,
+            age: 40 + (Math.random() > 0.5 ? 1 : -1) * Math.ceil(i / 3),
+            address: `London, Park Lane no. ${i}`,
+        });
+    }
+    return data;
+};
+
+const data = getData();
+
+const pageSize = 5;
+
+function App() {
+    const [dataSource, setData] = useState([]);
+    const [loading, setLoading] = useState(false);
+    const [currentPage, setPage] = useState(1);
+
+    const fetchData = (currentPage = 1) => {
+        setLoading(true);
+        setPage(currentPage);
+        return new Promise((res, rej) => {
+            setTimeout(() => {
+                const data = getData();
+                let dataSource = data.slice((currentPage - 1) * pageSize, currentPage * pageSize);
+                res(dataSource);
+            }, 300);
+        }).then(dataSource => {
+            setLoading(false);
+            setData(dataSource);
+        });
+    };
+
+    const handlePageChange = page => {
+        fetchData(page);
+    };
+
+    useEffect(() => {
+        fetchData();
+    }, []);
+
+    return (
+        <Table
+            columns={columns}
+            dataSource={dataSource}
+            pagination={{
+                currentPage,
                 pageSize: 5,
                 total: data.length,
-                onPageChange: page => this.fetchData(page),
-            },
-            dataSource: []
-        };
-    }
-
-    componentDidMount() {
-        this.fetchData();
-    }
-
-    render() {
-
-        let { columns, dataSource, pagination, loading } = this.state;
-
-
-        return (<Table columns={columns} dataSource={dataSource} pagination={pagination} loading={loading} />);
-    }
+                onPageChange: handlePageChange
+            }}
+            loading={loading}
+        />
+    );
 }
 
 render(App);
@@ -535,183 +528,173 @@ render(App);
 
 ### 固定列或表头
 
-可以通过设置 column 的 fixed 属性以及 scoll.x 来进行列固定，通过设置 scoll.y 来进行表头固定。
+可以通过设置 column 的 `fixed` 属性以及 `scroll.x` 来进行列固定，通过设置 `scroll.y` 来进行表头固定。
 
 > -   请确保表格内部的所有元素在渲染后不会对单元格的高度造成影响（例如含有未加载完成的图片等），这种情况下请给定子元素一个确定的高度，以此确保左右固定列单元格不会错乱。
-> -   若列头与内容不对齐或出现列重复，请指定固定列的宽度 width。如果指定 width 不生效，请尝试建议留一列不设宽度以适应弹性布局，或者检查是否有超长连续字段破坏布局。
-> -   建议指定 scroll.x 为大于表格宽度的**固定值**或百分比。推荐设置为 `>=所有固定列宽之和+所有表格列宽之和` 的固定数值。
+> -   若列头与内容不对齐或出现列重复，请指定固定列的宽度 `width`。如果指定 `width` 不生效，请尝试建议留一列不设宽度以适应弹性布局，或者检查是否有超长连续字段破坏布局。
+> -   建议指定 `scroll.x` 为大于表格宽度的**固定值**或百分比。推荐设置为 `>=所有固定列宽之和+所有表格列宽之和` 的固定数值。
 
 ```jsx live=true noInline=true dir="column"
 import React from 'react';
-import { Table } from '@douyinfe/semi-ui';
+import { Table, Tooltip, Tag } from '@douyinfe/semi-ui';
 
-class TableApp extends React.Component {
-    constructor() {
-        this.columns = [
-            {
-                title: 'Name',
-                dataIndex: 'name',
-                width: 150,
-                fixed: true,
-                filters: [
-                    {
-                        text: 'King 3',
-                        value: 'King 3',
-                    },
-                    {
-                        text: 'King 4',
-                        value: 'King 4',
-                    },
-                ],
-                onFilter: (value, record) => record.name.includes(value),
-            },
-            {
-                title: 'Age',
-                dataIndex: 'age',
-                width: 150,
-                sorter: (a, b) => a.age - b.age > 0 ? 1 : -1,
-            },
-            {
-                title: 'Address',
-                width: 200,
-                dataIndex: 'address',
-            },
-            {
-                title: 'Description',
-                // width: 400,
-                dataIndex: 'description',
-            },
-            {
-                fixed: 'right',
-                width: 250,
-                render: (text, record) => <Tooltip content={record.description}><Tag color='green'>Show Info</Tag></Tooltip>
-            }
-        ];
-
-        this.data = [];
-
-        this.rowSelection = {
-            onChange: (selectedRowKeys, selectedRows) => {
-                // console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
-            },
-            getCheckboxProps: record => ({
-                disabled: record.name === 'Michael James', // Column configuration not to be checked
-                name: record.name,
-            }),
-        };
-
-        for (let i = 0; i < 46; i++) {
-            let age = 40 + (Math.random() > 0.5 ? 1 : -1) * Math.ceil(i/3);
-            let name = `Edward King ${i}`;
-            this.data.push({
-                key: '' + i,
-                name,
-                age,
-                address: `London, Park Lane no. ${i}`,
-                description: `My name is ${name}, I am ${age} years old, living in New York No. ${i+1} Lake Park.`,
-            });
+function App() {
+    const columns = [
+        {
+            title: 'Name',
+            dataIndex: 'name',
+            width: 150,
+            fixed: true,
+            filters: [
+                {
+                    text: 'King 3',
+                    value: 'King 3',
+                },
+                {
+                    text: 'King 4',
+                    value: 'King 4',
+                },
+            ],
+            onFilter: (value, record) => record.name.includes(value),
+        },
+        {
+            title: 'Age',
+            dataIndex: 'age',
+            width: 150,
+            sorter: (a, b) => a.age - b.age > 0 ? 1 : -1,
+        },
+        {
+            title: 'Address',
+            width: 200,
+            dataIndex: 'address',
+        },
+        {
+            title: 'Description',
+            // width: 400,
+            dataIndex: 'description',
+        },
+        {
+            fixed: 'right',
+            width: 250,
+            render: (text, record) => <Tooltip content={record.description}><Tag color='green'>Show Info</Tag></Tooltip>
         }
+    ];
 
-        this.scroll = { y: 300, x: 1500 };
+    const data = [];
+
+    const rowSelection = {
+        onChange: (selectedRowKeys, selectedRows) => {
+            console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
+        },
+        getCheckboxProps: record => ({
+            disabled: record.name === 'Michael James', // Column configuration not to be checked
+            name: record.name,
+        }),
+    };
+
+    for (let i = 0; i < 46; i++) {
+        let age = 40 + (Math.random() > 0.5 ? 1 : -1) * Math.ceil(i/3);
+        let name = `Edward King ${i}`;
+        data.push({
+            key: '' + i,
+            name,
+            age,
+            address: `London, Park Lane no. ${i}`,
+            description: `My name is ${name}, I am ${age} years old, living in New York No. ${i+1} Lake Park.`,
+        });
     }
 
-    render() {
-        return <Table columns={this.columns} dataSource={this.data} scroll={this.scroll} />;
-    }
+    const scroll = { y: 300, x: 1500 };
+
+    return <Table columns={columns} dataSource={data} scroll={scroll} />;
 }
 
-render(TableApp);
+render(App);
 ```
 
 ### 带排序和过滤功能的表头
 
-表格内部集成了过滤器和排序控件，用户可以通过在 Column 中传入 filters 以及 onFilter 开启表头的过滤器控件展示，传入 sorter 开启表头的排序控件的展示。
+表格内部集成了过滤器和排序控件，用户可以通过在 Column 中传入 `filters` 以及 `onFilter` 开启表头的过滤器控件展示，传入 `sorter` 开启表头的排序控件的展示。
 
-**注意：**请务必为每行数据提供一个与其他行值不同的 "key"，或者使用 rowKey 参数指定一个作为主键的属性名。
+> **注意：**请务必为每行数据提供一个与其他行值不同的 `key`，或者使用 `rowKey` 参数指定一个作为主键的属性名。
 
 ```jsx live=true noInline=true dir="column"
 import React from 'react';
 import { Table } from '@douyinfe/semi-ui';
 
-class App extends React.Component {
-    constructor() {
-        this.state = {
-            sortColumns : [
+function App() {
+    const sortColumns = [
+        {
+            title: 'Name',
+            dataIndex: 'name',
+            filters: [
                 {
-                    title: 'Name',
-                    dataIndex: 'name',
-                    filters: [
-                        {
-                            text: 'Joe',
-                            value: 'Joe',
-                        },
-                        {
-                            text: 'Jim',
-                            value: 'Jim',
-                        },
-                    ],
-                    onFilter: (value, record) => record.name.indexOf(value) === 0,
-                    sorter: (a, b) => a.name.length - b.name.length,
+                    text: 'Joe',
+                    value: 'Joe',
                 },
                 {
-                    title: 'Age',
-                    dataIndex: 'age',
-                    sorter: (a, b) => a.age - b.age > 0 ? 1 : -1,
-                },
-                {
-                    title: 'Address',
-                    dataIndex: 'address',
-                    filters: [
-                        {
-                            text: 'London',
-                            value: 'London',
-                        },
-                        {
-                            text: 'New York',
-                            value: 'New York',
-                        },
-                    ],
-                    filterMultiple: false,
-                    onFilter: (value, record) => record.address.indexOf(value) === 0,
-                    sorter: (a, b) => a.address.length - b.address.length,
+                    text: 'Jim',
+                    value: 'Jim',
                 },
             ],
-            sortData: [
+            onFilter: (value, record) => record.name.indexOf(value) === 0,
+            sorter: (a, b) => a.name.length - b.name.length,
+        },
+        {
+            title: 'Age',
+            dataIndex: 'age',
+            sorter: (a, b) => a.age - b.age > 0 ? 1 : -1,
+        },
+        {
+            title: 'Address',
+            dataIndex: 'address',
+            filters: [
                 {
-                    key: '1',
-                    name: 'John Brown',
-                    age: 32,
-                    address: 'New York No. 1 Lake Park',
+                    text: 'London',
+                    value: 'London',
                 },
                 {
-                    key: '2',
-                    name: 'Jim Green',
-                    age: 42,
-                    address: 'London No. 1 Lake Park',
+                    text: 'New York',
+                    value: 'New York',
                 },
-                {
-                    key: '3',
-                    name: 'Joe Black',
-                    age: 32,
-                    address: 'Sidney No. 1 Lake Park',
-                },
-                {
-                    key: '4',
-                    name: 'Jim Red',
-                    age: 32,
-                    address: 'London No. 2 Lake Park',
-                },
-            ]
-        };
+            ],
+            filterMultiple: false,
+            onFilter: (value, record) => record.address.indexOf(value) === 0,
+            sorter: (a, b) => a.address.length - b.address.length,
+        },
+    ];
+    const sortData = [
+        {
+            key: '1',
+            name: 'John Brown',
+            age: 32,
+            address: 'New York No. 1 Lake Park',
+        },
+        {
+            key: '2',
+            name: 'Jim Green',
+            age: 42,
+            address: 'London No. 1 Lake Park',
+        },
+        {
+            key: '3',
+            name: 'Joe Black',
+            age: 32,
+            address: 'Sidney No. 1 Lake Park',
+        },
+        {
+            key: '4',
+            name: 'Jim Red',
+            age: 32,
+            address: 'London No. 2 Lake Park',
+        },
+    ];
 
-        this.onChange = (...args) => {
-            console.log('Table changed to:', ...args);
-        };
-    }
+    const onChange = (...args) => {
+        console.log('Table changed to:', ...args);
+    };
 
-    render() {
-        return <Table columns={this.state.sortColumns} dataSource={this.state.sortData} onChange={this.onChange} />;
-    }
+    return <Table columns={sortColumns} dataSource={sortData} onChange={onChange} />;
 }
 
 render(App);
@@ -719,7 +702,7 @@ render(App);
 
 ### 自定义筛选项渲染
 
-自 **1.1.0** 版本后，支持往column中传入 `renderFilterDropdownItem` 自定义每个筛选项的渲染方式。
+自 **1.1.0** 版本后，支持往 column 中传入 `renderFilterDropdownItem` 自定义每个筛选项的渲染方式。
 
 该方法接受一个 `Object` 型入参，其各个属性的含义如下：
 
@@ -735,164 +718,154 @@ render(App);
 import React from 'react';
 import { Table, Tag, Tooltip, Dropdown } from '@douyinfe/semi-ui';
 
-class CustomDropdownItem extends React.Component {
-    constructor(props = {}) {
-        super(props);
-
-        this.columns = [
-            {
-                title: 'Name',
-                dataIndex: 'name',
-                width: 150,
-                fixed: true,
-                filterMultiple: false,
-                filters: [
-                    {
-                        text: 'Code 45',
-                        value: '45',
-                    },
-                    {
-                        text: 'King 4',
-                        value: 'King 4',
-                    },
-                ],
-                onFilter: (value, record) => record.name.includes(value),
-                renderFilterDropdownItem: ({ text, checked, onChange }) => (
-                    <Dropdown.Item onClick={onChange} active={checked}>
-                        {text}
-                    </Dropdown.Item>
-                ),
-                filterDropdownProps: {
-                    showTick: true,
+function App() {
+    const columns = [
+        {
+            title: 'Name',
+            dataIndex: 'name',
+            width: 150,
+            fixed: true,
+            filterMultiple: false,
+            filters: [
+                {
+                    text: 'Code 45',
+                    value: '45',
                 },
+                {
+                    text: 'King 4',
+                    value: 'King 4',
+                },
+            ],
+            onFilter: (value, record) => record.name.includes(value),
+            renderFilterDropdownItem: ({ text, checked, onChange }) => (
+                <Dropdown.Item onClick={onChange} active={checked}>
+                    {text}
+                </Dropdown.Item>
+            ),
+            filterDropdownProps: {
+                showTick: true,
             },
-            {
-                title: 'Age',
-                dataIndex: 'age',
-                width: 150,
-                sorter: (a, b) => (a.age - b.age > 0 ? 1 : -1),
-            },
-            {
-                title: 'Address',
-                width: 200,
-                dataIndex: 'address',
-            },
-            {
-                title: 'Description',
-                dataIndex: 'description',
-            },
-            {
-                fixed: 'right',
-                width: 250,
-                render: (text, record) => (
-                    <Tooltip content={record.description}>
-                        <Tag color="green">Hover To Show Info</Tag>
-                    </Tooltip>
-                ),
-            },
-        ];
+        },
+        {
+            title: 'Age',
+            dataIndex: 'age',
+            width: 150,
+            sorter: (a, b) => (a.age - b.age > 0 ? 1 : -1),
+        },
+        {
+            title: 'Address',
+            width: 200,
+            dataIndex: 'address',
+        },
+        {
+            title: 'Description',
+            dataIndex: 'description',
+        },
+        {
+            fixed: 'right',
+            width: 250,
+            render: (text, record) => (
+                <Tooltip content={record.description}>
+                    <Tag color="green">Hover To Show Info</Tag>
+                </Tooltip>
+            ),
+        },
+    ];
 
-        this.data = [];
+    const data = [];
 
-        for (let i = 0; i < 46; i++) {
-            let age = 40 + (Math.random() > 0.5 ? 1 : -1) * Math.ceil(i / 3);
-            let name = `Edward King ${i}`;
-            this.data.push({
-                key: '' + i,
-                name,
-                age,
-                address: `London, Park Lane no. ${i}`,
-                description: `My name is ${name}, I am ${age} years old, living in New York No. ${i + 1} Lake Park.`,
-            });
-        }
-
-        this.scroll = { y: 400, x: '150%' };
+    for (let i = 0; i < 46; i++) {
+        let age = 40 + (Math.random() > 0.5 ? 1 : -1) * Math.ceil(i / 3);
+        let name = `Edward King ${i}`;
+        data.push({
+            key: '' + i,
+            name,
+            age,
+            address: `London, Park Lane no. ${i}`,
+            description: `My name is ${name}, I am ${age} years old, living in New York No. ${i + 1} Lake Park.`,
+        });
     }
 
-    render() {
-        return <Table columns={this.columns} dataSource={this.data} scroll={this.scroll} />;
-    }
+    const scroll = { y: 400, x: '150%' };
+
+    return <Table columns={columns} dataSource={data} scroll={scroll} />;
 }
 
-render(CustomDropdownItem);
+render(App);
 ```
 
 ### 可以展开的表格
 
-> 注意：
->
-> - 自 0.27.0版本后，展开按钮会默认与第一列文案渲染在同一个单元格内，你可以通过往Table传入 `hideExpandedColumn={false}` 将展开按钮单独作为一列渲染。
-> - 请务必为每行数据提供一个与其他行值不同的 `key`，或者使用 rowKey 参数指定一个作为主键的属性名。
+<Notice type="primary" title="注意事项">
+    <div>1. 自 0.27.0版本后，展开按钮会默认与第一列文案渲染在同一个单元格内，你可以通过往 Table 传入 hideExpandedColumn=false 将展开按钮单独作为一列渲染；</div>
+    <div>2. 请务必为每行数据提供一个与其他行值不同的 key，或者使用 rowKey 参数指定一个作为主键的属性名。</div>
+</Notice>
 
 #### 一般可展开行
 
 如果需要渲染可以展开的表格，除了需要在Table传 `expandedRowRender` 这个方法外，还必须要指定 `rowKey`（默认为 `key`），Table 会根据 `rowKey` 取得行唯一标识符。
 
--   如果 rowKey 为 Function，则会把 `rowKey(record)` 的结果作为行唯一 ID
--   如果 rowKey 为 string 类型，则会把 `record[rowKey]` 作为行唯一 ID
+-   如果 `rowKey` 为 `Function`，则会把 `rowKey(record)` 的结果作为行唯一 ID
+-   如果 `rowKey` 为 `string` 类型，则会把 `record[rowKey]` 作为行唯一 ID
 
 ```jsx live=true noInline=true dir="column"
 import React from 'react';
 import { Table } from '@douyinfe/semi-ui';
 
-class App extends React.Component {
-    constructor() {
-        this.expandColumns = [
-            { title: 'Name', dataIndex: 'name', key: 'name' },
-            { title: 'Age', dataIndex: 'age', key: 'age' },
-            { title: 'Address', dataIndex: 'address', key: 'address' },
-            {
-                title: 'Action',
-                dataIndex: '',
-                key: 'x',
-                render: () => <a>Delete</a>,
-            },
-        ];
+function App() {
+    const expandColumns = [
+        { title: 'Name', dataIndex: 'name', key: 'name' },
+        { title: 'Age', dataIndex: 'age', key: 'age' },
+        { title: 'Address', dataIndex: 'address', key: 'address' },
+        {
+            title: 'Action',
+            dataIndex: '',
+            key: 'x',
+            render: () => <a>Delete</a>,
+        },
+    ];
 
-        this.rowSelection = {
-            onChange: (selectedRowKeys, selectedRows) => {
-                // console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
-            },
-            getCheckboxProps: record => ({
-                disabled: record.name === 'Michael James', // Column configuration not to be checked
-                name: record.name,
-            }),
-        };
+    const rowSelection = {
+        onChange: (selectedRowKeys, selectedRows) => {
+            console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
+        },
+        getCheckboxProps: record => ({
+            disabled: record.name === 'Michael James', // Column configuration not to be checked
+            name: record.name,
+        }),
+    };
 
-        this.expandData = [
-            {
-                name: 'John Brown',
-                age: 32,
-                address: 'New York No. 1 Lake Park',
-                description: 'My name is John Brown, I am 32 years old, living in New York No. 1 Lake Park.',
-            },
-            {
-                name: 'Jim Green',
-                age: 42,
-                address: 'London No. 1 Lake Park',
-                description: 'My name is Jim Green, I am 42 years old, living in London No. 1 Lake Park.',
-            },
-            {
-                name: 'Joe Black',
-                age: 32,
-                address: 'Sidney No. 1 Lake Park',
-                description: 'My name is Joe Black, I am 32 years old, living in Sidney No. 1 Lake Park.',
-            },
-        ];
+    const expandData = [
+        {
+            name: 'John Brown',
+            age: 32,
+            address: 'New York No. 1 Lake Park',
+            description: 'My name is John Brown, I am 32 years old, living in New York No. 1 Lake Park.',
+        },
+        {
+            name: 'Jim Green',
+            age: 42,
+            address: 'London No. 1 Lake Park',
+            description: 'My name is Jim Green, I am 42 years old, living in London No. 1 Lake Park.',
+        },
+        {
+            name: 'Joe Black',
+            age: 32,
+            address: 'Sidney No. 1 Lake Park',
+            description: 'My name is Joe Black, I am 32 years old, living in Sidney No. 1 Lake Park.',
+        },
+    ];
 
-        this.expandRowRender = (record, index) => index < 2 ? (<Table columns={this.expandColumns} dataSource={this.expandData} />) : <p>{record.description}</p>
-    }
-    render() {
-        return (
-            <Table
-                rowKey={'name'}
-                columns={this.expandColumns}
-                rowSelection={this.rowSelection}
-                expandedRowRender={this.expandRowRender}
-                dataSource={this.expandData}
-            />
-        );
-    }
+    const expandRowRender = (record, index) => index < 2 ? (<Table columns={expandColumns} dataSource={expandData} />) : <p>{record.description}</p>;
+    return (
+        <Table
+            rowKey={'name'}
+            columns={expandColumns}
+            rowSelection={rowSelection}
+            expandedRowRender={expandRowRender}
+            dataSource={expandData}
+        />
+    );
 }
 
 render(App);
@@ -908,65 +881,61 @@ render(App);
 import React from 'react';
 import { Table } from '@douyinfe/semi-ui';
 
-class App extends React.Component {
-    constructor() {
-        this.expandColumns = [
-            { title: 'Name', dataIndex: 'name', key: 'name' },
-            { title: 'Age', dataIndex: 'age', key: 'age' },
-            { title: 'Address', dataIndex: 'address', key: 'address' },
-            {
-                title: 'Action',
-                dataIndex: '',
-                key: 'x',
-                render: () => <a>Delete</a>,
-            },
-        ];
+function App() {
+    const expandColumns = [
+        { title: 'Name', dataIndex: 'name', key: 'name' },
+        { title: 'Age', dataIndex: 'age', key: 'age' },
+        { title: 'Address', dataIndex: 'address', key: 'address' },
+        {
+            title: 'Action',
+            dataIndex: '',
+            key: 'x',
+            render: () => <a>Delete</a>,
+        },
+    ];
 
-        this.rowSelection = {
-            onChange: (selectedRowKeys, selectedRows) => {
-                // console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
-            },
-            getCheckboxProps: record => ({
-                disabled: record.name === 'Michael James', // Column configuration not to be checked
-                name: record.name,
-            }),
-        };
+    const rowSelection = {
+        onChange: (selectedRowKeys, selectedRows) => {
+            console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
+        },
+        getCheckboxProps: record => ({
+            disabled: record.name === 'Michael James', // Column configuration not to be checked
+            name: record.name,
+        }),
+    };
 
-        this.expandData = [
-            {
-                name: 'John Brown',
-                age: 32,
-                address: 'New York No. 1 Lake Park',
-                description: 'My name is John Brown, I am 32 years old, living in New York No. 1 Lake Park.',
-            },
-            {
-                name: 'Jim Green',
-                age: 42,
-                address: 'London No. 1 Lake Park',
-                description: 'My name is Jim Green, I am 42 years old, living in London No. 1 Lake Park.',
-            },
-            {
-                name: 'Joe Black',
-                age: 32,
-                address: 'Sidney No. 1 Lake Park',
-                description: 'My name is Joe Black, I am 32 years old, living in Sidney No. 1 Lake Park.',
-            },
-        ];
+    const expandData = [
+        {
+            name: 'John Brown',
+            age: 32,
+            address: 'New York No. 1 Lake Park',
+            description: 'My name is John Brown, I am 32 years old, living in New York No. 1 Lake Park.',
+        },
+        {
+            name: 'Jim Green',
+            age: 42,
+            address: 'London No. 1 Lake Park',
+            description: 'My name is Jim Green, I am 42 years old, living in London No. 1 Lake Park.',
+        },
+        {
+            name: 'Joe Black',
+            age: 32,
+            address: 'Sidney No. 1 Lake Park',
+            description: 'My name is Joe Black, I am 32 years old, living in Sidney No. 1 Lake Park.',
+        },
+    ];
 
-        this.expandRowRender = record => <p>{record.description}</p>
-    }
-    render() {
-        return (
-            <Table
-                hideExpandedColumn={false}
-                rowKey={'name'}
-                columns={this.expandColumns}
-                rowSelection={this.rowSelection}
-                expandedRowRender={this.expandRowRender}
-                dataSource={this.expandData}
-            />
-        );
-    }
+    const expandRowRender = record => <p>{record.description}</p>;
+    return (
+        <Table
+            hideExpandedColumn={false}
+            rowKey={'name'}
+            columns={expandColumns}
+            rowSelection={rowSelection}
+            expandedRowRender={expandRowRender}
+            dataSource={expandData}
+        />
+    );
 }
 
 render(App);
@@ -976,72 +945,68 @@ render(App);
 
 **版本：>=0.27.0**
 
-可传入 rowExpandable 方法，入参为 record，判断返回值是否为 false 来关闭某一行的可展开按钮的渲染。
+可传入 `rowExpandable` 方法，入参为 `record`，判断返回值是否为 `false` 来关闭某一行的可展开按钮的渲染。
 
 ```jsx live=true noInline=true dir="column"
 import React from 'react';
 import { Table } from '@douyinfe/semi-ui';
 
-class App extends React.Component {
-    constructor() {
-        this.expandColumns = [
-            { title: 'Name', dataIndex: 'name', key: 'name' },
-            { title: 'Age', dataIndex: 'age', key: 'age' },
-            { title: 'Address', dataIndex: 'address', key: 'address' },
-            {
-                title: 'Action',
-                dataIndex: '',
-                key: 'x',
-                render: () => <a>Delete</a>,
-            },
-        ];
+function App() {
+    const expandColumns = [
+        { title: 'Name', dataIndex: 'name', key: 'name' },
+        { title: 'Age', dataIndex: 'age', key: 'age' },
+        { title: 'Address', dataIndex: 'address', key: 'address' },
+        {
+            title: 'Action',
+            dataIndex: '',
+            key: 'x',
+            render: () => <a>Delete</a>,
+        },
+    ];
 
-        this.rowSelection = {
-            onChange: (selectedRowKeys, selectedRows) => {
-                // console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
-            },
-            getCheckboxProps: record => ({
-                disabled: record.name === 'Michael James', // Column configuration not to be checked
-                name: record.name,
-            }),
-        };
+    const rowSelection = {
+        onChange: (selectedRowKeys, selectedRows) => {
+            // console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
+        },
+        getCheckboxProps: record => ({
+            disabled: record.name === 'Michael James', // Column configuration not to be checked
+            name: record.name,
+        }),
+    };
 
-        this.expandData = [
-            {
-                name: 'John Brown',
-                age: 32,
-                address: 'New York No. 1 Lake Park',
-                description: 'My name is John Brown, I am 32 years old, living in New York No. 1 Lake Park.',
-            },
-            {
-                name: 'Jim Green',
-                age: 42,
-                address: 'London No. 1 Lake Park',
-                description: 'My name is Jim Green, I am 42 years old, living in London No. 1 Lake Park.',
-            },
-            {
-                name: 'Joe Black',
-                age: 32,
-                address: 'Sidney No. 1 Lake Park',
-                description: 'My name is Joe Black, I am 32 years old, living in Sidney No. 1 Lake Park.',
-            },
-        ];
+    const expandData = [
+        {
+            name: 'John Brown',
+            age: 32,
+            address: 'New York No. 1 Lake Park',
+            description: 'My name is John Brown, I am 32 years old, living in New York No. 1 Lake Park.',
+        },
+        {
+            name: 'Jim Green',
+            age: 42,
+            address: 'London No. 1 Lake Park',
+            description: 'My name is Jim Green, I am 42 years old, living in London No. 1 Lake Park.',
+        },
+        {
+            name: 'Joe Black',
+            age: 32,
+            address: 'Sidney No. 1 Lake Park',
+            description: 'My name is Joe Black, I am 32 years old, living in Sidney No. 1 Lake Park.',
+        },
+    ];
 
-        this.expandRowRender = record => <p>{record.description}</p>
-    }
-    render() {
-        return (
-            <Table
-                hideExpandedColumn={false}
-                rowKey={'name'}
-                columns={this.expandColumns}
-                rowExpandable={ record => record.name !== 'Jim Green' }
-                rowSelection={this.rowSelection}
-                expandedRowRender={this.expandRowRender}
-                dataSource={this.expandData}
-            />
-        );
-    }
+    const expandRowRender = record => <p>{record.description}</p>;
+    return (
+        <Table
+            hideExpandedColumn={false}
+            rowKey={'name'}
+            columns={expandColumns}
+            rowExpandable={ record => record.name !== 'Jim Green' }
+            rowSelection={rowSelection}
+            expandedRowRender={expandRowRender}
+            dataSource={expandData}
+        />
+    );
 }
 
 render(App);
@@ -1051,9 +1016,9 @@ render(App);
 
 **版本：>=0.27.0**
 
-表格支持树形数据的展示，当数据中有 children 字段时会自动展示为树形表格，如果不需要或使用其他字段可以用 `childrenRecordName` 进行配置。另外可以通过设置 `indentSize` 以控制每一层的缩进宽度。
+表格支持树形数据的展示，当数据中有 `children` 字段时会自动展示为树形表格，如果不需要或使用其他字段可以用 `childrenRecordName` 进行配置。另外可以通过设置 `indentSize` 以控制每一层的缩进宽度。
 
-**注意：**请务必为每行数据提供一个与其他行值不同的 "key"，或者使用 rowKey 参数指定一个作为主键的属性名。
+> **注意：**请务必为每行数据提供一个与其他行值不同的 `key`，或者使用 `rowKey` 参数指定一个作为主键的属性名。
 
 #### 树形数据简单示例
 
@@ -1061,7 +1026,7 @@ render(App);
 import React from 'react';
 import { Table } from '@douyinfe/semi-ui';
 
-const Demo = () => {
+function App() {
     const columns = [
         {
             title: 'Name',
@@ -1156,14 +1121,14 @@ const Demo = () => {
     );
 };
 
-render(Demo);
+render(App);
 ```
 
 #### 行可交换的树形数据
 
 **版本：>=0.27.0**
 
-你可以通过改变 dataSource 元素的顺序来实现行交换操作。
+你可以通过改变 `dataSource` 元素的顺序来实现行交换操作。
 
 ```jsx live=true noInline=true dir="column"
 import React, { useState } from 'react';
@@ -1380,7 +1345,7 @@ render(Demo);
 
 **版本：>=0.27.0**
 
-默认情况下，表格的行选中是各自独立的，你可以通过定义 selectedRowKeys 来模拟一个树形选中。
+默认情况下，表格的行选中是各自独立的，你可以通过定义 `selectedRowKeys` 来模拟一个树形选中。
 
 ```jsx live=true noInline=true dir="column"
 import React, { useMemo, useState, useCallback } from 'react';
@@ -1672,14 +1637,14 @@ render(ChildrenDataSelectedDemo);
 
 ### 自定义行或单元格事件以及属性
 
--   传入 onRow/onHeaderRow 可以定义表格或表头行的原生事件或属性。
--   传入 column.onCell/column.onHeaderCell 可以定义表格或表头单元格原生事件或属性。
+-   传入 `onRow`/`onHeaderRow` 可以定义表格或表头行的原生事件或属性。
+-   传入 `column.onCell`/`column.onHeaderCell` 可以定义表格或表头单元格原生事件或属性。
 
 原则上 tr/td/th 上支持的属性或事件都能够被定义。例如下面这个例子：
 
--   表头的 tr 定义了 onMouseEnter/onMouseLeave
--   表格的 tr 定义了 className
--   表格的第三行定义了 onClick
+-   表头的 tr 定义了 `onMouseEnter`/`onMouseLeave`
+-   表格的 tr 定义了 `className`
+-   表格的第三行定义了 `onClick`
 
 ```jsx live=true noInline=true dir="column"
 import React, { useMemo } from 'react';
@@ -1769,7 +1734,7 @@ render(EventTable);
 
 ### 实现斑马纹样式
 
-使用 OnRow 给每行设置一个背景色，实现有斑马纹效果的表格。
+使用 `OnRow` 给每行设置一个背景色，实现有斑马纹效果的表格。
 
 ```jsx live=true noInline=true dir="column"
 import React from 'react';
@@ -1854,62 +1819,60 @@ render(App);
 -   `resizable` 设定为 `true` 或者一个 `object`
 -   `columns` 里需要伸缩功能的列都要指定 `width` 这个字段（如果不传，该列不具备伸缩功能，且其列宽度会被浏览器自动调整）
 
+> 不推荐与固定列同时使用，固定列需要指定 `scroll.x`，这约定了表格是有宽度范围的，而伸缩列会拓展列宽，这可能会导致表格对不齐
+
 ```jsx live=true noInline=true dir="column"
 import React from 'react';
 import { Table, Tooltip } from '@douyinfe/semi-ui';
 
-class ResizableDemo extends React.Component {
-    constructor() {
-        this.columns = [
-            {
-                title: 'Name',
-                dataIndex: 'name',
-                width: 150,
-            },
-            {
-                title: 'Age',
-                dataIndex: 'age',
-                width: 150,
-                sorter: (a, b) => a.age - b.age > 0 ? 1 : -1,
-            },
-            {
-                title: 'Address',
-                width: 200,
-                dataIndex: 'address',
-            },
-            {
-                render: (text, record) => <Tooltip content={record.description}><Tag color='green'>Show Info</Tag></Tooltip>
-            }
-        ];
-
-        this.data = [];
-
-        this.rowSelection = {
-            onChange: (selectedRowKeys, selectedRows) => {
-                // console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
-            },
-            getCheckboxProps: record => ({
-                disabled: record.name === 'Michael James', // Column configuration not to be checked
-                name: record.name,
-            }),
-        };
-
-        for (let i = 0; i < 46; i++) {
-            let age = 40 + (Math.random() > 0.5 ? 1 : -1) * Math.ceil(i/3);
-            let name = `Edward King ${i}`;
-            this.data.push({
-                key: '' + i,
-                name,
-                age,
-                address: `London, Park Lane no. ${i}`,
-                description: `My name is ${name}, I am ${age} years old, living in New York No. ${i+1} Lake Park.`,
-            });
+function ResizableDemo() {
+    const columns = [
+        {
+            title: 'Name',
+            dataIndex: 'name',
+            width: 150,
+        },
+        {
+            title: 'Age',
+            dataIndex: 'age',
+            width: 150,
+            sorter: (a, b) => a.age - b.age > 0 ? 1 : -1,
+        },
+        {
+            title: 'Address',
+            width: 200,
+            dataIndex: 'address',
+        },
+        {
+            render: (text, record) => <Tooltip content={record.description}><Tag color='green'>Show Info</Tag></Tooltip>
         }
+    ];
+
+    const data = [];
+
+    const rowSelection = {
+        onChange: (selectedRowKeys, selectedRows) => {
+            console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
+        },
+        getCheckboxProps: record => ({
+            disabled: record.name === 'Michael James', // Column configuration not to be checked
+            name: record.name,
+        }),
+    };
+
+    for (let i = 0; i < 46; i++) {
+        let age = 40 + (Math.random() > 0.5 ? 1 : -1) * Math.ceil(i/3);
+        let name = `Edward King ${i}`;
+        data.push({
+            key: '' + i,
+            name,
+            age,
+            address: `London, Park Lane no. ${i}`,
+            description: `My name is ${name}, I am ${age} years old, living in New York No. ${i+1} Lake Park.`,
+        });
     }
 
-    render() {
-        return <Table columns={this.columns} dataSource={this.data} resizable bordered />;
-    }
+    return <Table columns={columns} dataSource={data} resizable bordered />;
 }
 
 render(ResizableDemo);
@@ -1919,9 +1882,9 @@ render(ResizableDemo);
 
 `resizable` 还能为一个 `Object`，包括三个事件方法：
 
--   onResize
--   onResizeStart
--   onResizeStop
+-   `onResize`
+-   `onResizeStart`
+-   `onResizeStop`
 
 分别触发于`列宽改变中`、`开始改变`和`结束改变`三个时机。开发者可以选择在这个时机修改 column，例如在拉拽时增加一个拖动时的竖线效果等，如下例。
 
@@ -1930,78 +1893,74 @@ import React from 'react';
 import { Table, Tooltip, Tag } from '@douyinfe/semi-ui';
 import { addClass, removeClass } from '@douyinfe/semi-foundation/utils';
 
-class ResizableDemo extends React.Component {
-    constructor() {
-        this.columns = [
-            {
-                title: 'Name',
-                dataIndex: 'name',
-                width: 150,
-            },
-            {
-                title: 'Age',
-                dataIndex: 'age',
-                width: 150,
-            },
-            {
-                title: 'Address',
-                width: 200,
-                dataIndex: 'address',
-            },
-            {
-                render: (text, record) => <Tooltip content={record.description}><Tag color='green'>Show Info</Tag></Tooltip>
-            }
-        ];
+const pagination = {
+    pageSize: 5
+};
 
-        this.data = [];
-
-        this.rowSelection = {
-            onChange: (selectedRowKeys, selectedRows) => {
-                // console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
-            },
-            getCheckboxProps: record => ({
-                disabled: record.name === 'Michael James', // Column configuration not to be checked
-                name: record.name,
-            }),
-        };
-
-        for (let i = 0; i < 46; i++) {
-            let age = 40 + (Math.random() > 0.5 ? 1 : -1) * Math.ceil(i/3);
-            let name = `Edward King ${i}`;
-            this.data.push({
-                key: '' + i,
-                name,
-                age,
-                address: `London, Park Lane no. ${i}`,
-                description: `My name is ${name}, I am ${age} years old, living in New York No. ${i+1} Lake Park.`,
-            });
+function ResizableDemo() {
+    const columns = [
+        {
+            title: 'Name',
+            dataIndex: 'name',
+            width: 150,
+        },
+        {
+            title: 'Age',
+            dataIndex: 'age',
+            width: 150,
+        },
+        {
+            title: 'Address',
+            width: 200,
+            dataIndex: 'address',
+        },
+        {
+            render: (text, record) => <Tooltip content={record.description}><Tag color='green'>Show Info</Tag></Tooltip>
         }
+    ];
 
-        this.resizable = {
-            onResizeStart: curColumn => {
-                const className = addClass(curColumn.className, 'my-resizing');
+    const data = [];
 
-                return { className };
-            },
-            onResizeStop: curColumn => {
-                const className = removeClass(curColumn.className, 'my-resizing');
+    const rowSelection = {
+        onChange: (selectedRowKeys, selectedRows) => {
+            // console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
+        },
+        getCheckboxProps: record => ({
+            disabled: record.name === 'Michael James', // Column configuration not to be checked
+            name: record.name,
+        }),
+    };
 
-                return { className };
-            }
-        };
-
-        this.pagination = {
-            pageSize: 5
-        };
+    for (let i = 0; i < 46; i++) {
+        let age = 40 + (Math.random() > 0.5 ? 1 : -1) * Math.ceil(i/3);
+        let name = `Edward King ${i}`;
+        data.push({
+            key: '' + i,
+            name,
+            age,
+            address: `London, Park Lane no. ${i}`,
+            description: `My name is ${name}, I am ${age} years old, living in New York No. ${i+1} Lake Park.`,
+        });
     }
 
-    render() {
-        return (
-            <div id="components-table-demo-resizable-column">
-                <Table columns={this.columns} dataSource={this.data} resizable={this.resizable} pagination={this.pagination} bordered />
-            </div>
-        );
-    }
+    const resizable = {
+        onResizeStart: curColumn => {
+            const className = addClass(curColumn.className, 'my-resizing');
+
+            return { className };
+        },
+        onResizeStop: curColumn => {
+            const className = removeClass(curColumn.className, 'my-resizing');
+
+            return { className };
+        }
+    };
+
+    return (
+        <div id="components-table-demo-resizable-column">
+            <Table columns={columns} dataSource={data} resizable={resizable} pagination={pagination} bordered />
+        </div>
+    );
 }
 
 render(ResizableDemo);
@@ -2203,9 +2162,9 @@ render(DragSortingTableDemo);
 
 **版本：>=0.29.0**
 
-对于一些数据需要分组展示的表格，可以传入 groupBy 定义分组规则，使用 renderGroupSection 来定义分组表头的渲染。
+对于一些数据需要分组展示的表格，可以传入 `groupBy` 定义分组规则，使用 `renderGroupSection` 来定义分组表头的渲染。
 
-> **注意：**请务必为每行数据提供一个与其他行值不同的 "key"，或者使用 rowKey 参数指定一个作为主键的属性名。
+> **注意：**请务必为每行数据提供一个与其他行值不同的 `key`，或者使用 `rowKey` 参数指定一个作为主键的属性名。
 
 ```jsx live=true noInline=true dir="column"
 import React from 'react';
@@ -2288,97 +2247,91 @@ render(Demo);
     -   `number` 
     -   `(index, { sectionRow?: boolean, expandedRow?: boolean }) => number`
 -   表格分组虚拟化需要版本 >= `0.37.0`
--   Semi Table底层借助了react-window的能力来实现虚拟化，因此react-window VariableSizeList 所支持的其他参数也可以通过virtualized(object)传入，例如overscanCount
--   如果需要使用VariableSizeList的API，可以传入`getVirtualizedListRef`获取对应ref，需要版本 >= `1.20`
+-   Semi Table 底层借助了 `react-window` 的能力来实现虚拟化，因此 `react-window` `VariableSizeList` 所支持的其他参数也可以通过 `virtualized`(object)传入，例如 `overscanCount`
+-   如果需要使用 `VariableSizeList` 的 API，可以传入`getVirtualizedListRef` 获取对应 ref，需要版本 >= `1.20`
 
 以下为渲染 1000 条数据的示例。
 
 ```jsx live=true noInline=true dir="column"
-import React from 'react';
+import React, { useRef } from 'react';
 import { Table, Tag, Tooltip, Button } from '@douyinfe/semi-ui';
 
-class VirtualizedFixedDemo extends React.Component {
-    constructor(props = {}) {
-        super(props);
-        this.virtualizedListRef = React.createRef()
-        this.columns = [
-            {
-                title: 'Name',
-                dataIndex: 'name',
-                width: 150,
-                fixed: true,
-                filters: [
-                    {
-                        text: 'Code 45',
-                        value: '45',
-                    },
-                    {
-                        text: 'King 4',
-                        value: 'King 4',
-                    },
-                ],
-                onFilter: (value, record) => record.name.includes(value),
-            },
-            {
-                title: 'Age',
-                dataIndex: 'age',
-                width: 150,
-                sorter: (a, b) => (a.age - b.age > 0 ? 1 : -1),
-            },
-            {
-                title: 'Address',
-                // width: 200,
-                dataIndex: 'address',
-            },
-            {
-                fixed: 'right',
-                width: 250,
-                render: (text, record) => (
-                    <Tooltip content={record.description}>
-                        <Tag color="green">Show Info</Tag>
-                    </Tooltip>
-                ),
-            },
-        ];
+function VirtualizedFixedDemo() {
+    let virtualizedListRef = useRef()
+    const columns = [
+        {
+            title: 'Name',
+            dataIndex: 'name',
+            width: 150,
+            fixed: true,
+            filters: [
+                {
+                    text: 'Code 45',
+                    value: '45',
+                },
+                {
+                    text: 'King 4',
+                    value: 'King 4',
+                },
+            ],
+            onFilter: (value, record) => record.name.includes(value),
+        },
+        {
+            title: 'Age',
+            dataIndex: 'age',
+            width: 150,
+            sorter: (a, b) => (a.age - b.age > 0 ? 1 : -1),
+        },
+        {
+            title: 'Address',
+            // width: 200,
+            dataIndex: 'address',
+        },
+        {
+            fixed: 'right',
+            width: 250,
+            render: (text, record) => (
+                <Tooltip content={record.description}>
+                    <Tag color="green">Show Info</Tag>
+                </Tooltip>
+            ),
+        },
+    ];
 
-        this.data = [];
+    const data = [];
 
-        for (let i = 0; i < 1000; i++) {
-            let age = 40 + (Math.random() > 0.5 ? 1 : -1) * (i % 9);
-            let name = `Edward King ${i}`;
-            this.data.push({
-                key: '' + i,
-                name,
-                age,
-                address: `London, Park Lane no. ${i}`,
-                description: `My name is ${name}, I am ${age} years old, living in New York No. ${i + 1} Lake Park.`,
-            });
-        }
-
-        this.scroll = { y: 400, x: 1600 };
-        this.style = { width: 750, margin: '0 auto' };
+    for (let i = 0; i < 1000; i++) {
+        let age = 40 + (Math.random() > 0.5 ? 1 : -1) * (i % 9);
+        let name = `Edward King ${i}`;
+        data.push({
+            key: '' + i,
+            name,
+            age,
+            address: `London, Park Lane no. ${i}`,
+            description: `My name is ${name}, I am ${age} years old, living in New York No. ${i + 1} Lake Park.`,
+        });
     }
 
-    render() {
-        return (
-            <>
-                <Button onClick={() => this.virtualizedListRef.current.scrollToItem(100)}>Scroll to 100</Button>
-                <Table
-                    pagination={false}
-                    columns={this.columns}
-                    dataSource={this.data}
-                    scroll={this.scroll}
-                    style={this.style}
-                    virtualized
-                    getVirtualizedListRef={ref => this.virtualizedListRef = ref}
-                />
-            </>
-        );
-    }
+    const scroll = { y: 400, x: 1600 };
+    const style = { width: 750, margin: '0 auto' };
+
+    return (
+        <>
+            <Button onClick={() => virtualizedListRef.current.scrollToItem(100)}>Scroll to 100</Button>
+            <Table
+                pagination={false}
+                columns={columns}
+                dataSource={data}
+                scroll={scroll}
+                style={style}
+                virtualized
+                getVirtualizedListRef={ref => virtualizedListRef = ref}
+            />
+        </>
+    );
 }
 
 render(VirtualizedFixedDemo);
-
 ```
 
 ### 无限滚动
@@ -2387,86 +2340,62 @@ render(VirtualizedFixedDemo);
 
 ```jsx live=true noInline=true dir="column" hideInDSM
 import React from 'react';
-import { Table, Tag, Tooltip } from '@douyinfe/semi-ui';
+import { Table, Tooltip, Tag } from '@douyinfe/semi-ui';
 
-class InfiniteScrollDemo extends React.Component {
-    constructor(props = {}) {
-        super(props);
-
-        this.state = {
-            data: [],
-        };
-
-        this.columns = [
+const columns = [
+    {
+        title: 'Name',
+        dataIndex: 'name',
+        width: 150,
+        fixed: true,
+        filters: [
             {
-                title: 'Name',
-                dataIndex: 'name',
-                width: 150,
-                fixed: true,
-                filters: [
-                    {
-                        text: 'Code 45',
-                        value: '45',
-                    },
-                    {
-                        text: 'King 4',
-                        value: 'King 4',
-                    },
-                ],
-                onFilter: (value, record) => record.name.includes(value),
+                text: 'Code 45',
+                value: '45',
             },
             {
-                title: 'Age',
-                dataIndex: 'age',
-                width: 150,
-                sorter: (a, b) => (a.age - b.age > 0 ? 1 : -1),
+                text: 'King 4',
+                value: 'King 4',
             },
-            {
-                title: 'Address',
-                // width: 200,
-                dataIndex: 'address',
-            },
-            {
-                fixed: 'right',
-                width: 250,
-                render: (text, record) => (
-                    <Tooltip content={record.description}>
-                        <Tag color="green">Show Info</Tag>
-                    </Tooltip>
-                ),
-            },
-        ];
+        ],
+        onFilter: (value, record) => record.name.includes(value),
+    },
+    {
+        title: 'Age',
+        dataIndex: 'age',
+        width: 150,
+        sorter: (a, b) => (a.age - b.age > 0 ? 1 : -1),
+    },
+    {
+        title: 'Address',
+        // width: 200,
+        dataIndex: 'address',
+    },
+    {
+        fixed: 'right',
+        width: 250,
+        render: (text, record) => (
+            <Tooltip content={record.description}>
+                <Tag color="green">Show Info</Tag>
+            </Tooltip>
+        ),
+    },
+];
 
-        this.scroll = { y: 600, x: 1000 };
-        this.style = { width: 750, margin: '0 auto' };
+function InfiniteScrollDemo() {
+    const [data, setData] = useState([]);
 
-        const itemSize = 56;
-        this.virtualized = {
-            itemSize,
-            onScroll: ({ scrollDirection, scrollOffset, scrollUpdateWasRequested }) => {
-                const { data } = this.state;
+    const scroll = { y: 600, x: 1000 };
+    const style = { width: 750, margin: '0 auto' };
 
-                if (
-                    scrollDirection === 'forward' &&
-                    scrollOffset >= (data.length - Math.ceil(this.scroll.y / itemSize) * 1.5) * itemSize &&
-                    !scrollUpdateWasRequested
-                ) {
-                    this.loadMore();
-                }
-            },
-        };
-
-        this.loadMore = this.loadMore.bind(this);
-    }
-
-    loadMore() {
+    const loadMore = () => {
         const pageSize = 20; // load 20 records every time
-        const data = [...this.state.data];
-        const currentLenght = data.length;
-        for (let i = currentLenght; i < currentLenght + pageSize; i++) {
+        const newData = [...data];
+        const currentLength = data.length;
+        for (let i = currentLength; i < currentLength + pageSize; i++) {
             let age = 40 + (Math.random() > 0.5 ? 1 : -1) * (i % 9);
             let name = `Edward King ${i}`;
-            data.push({
+            newData.push({
                 key: '' + i,
                 name,
                 age,
@@ -2474,25 +2403,37 @@ class InfiniteScrollDemo extends React.Component {
                 description: `My name is ${name}, I am ${age} years old, living in New York No. ${i + 1} Lake Park.`,
             });
         }
-        this.setState({ data });
-    }
+        setData(newData);
+    };
 
-    componentDidMount() {
-        this.loadMore();
-    }
+    const itemSize = 56;
+    const virtualized = {
+        itemSize,
+        onScroll: ({ scrollDirection, scrollOffset, scrollUpdateWasRequested }) => {
+            if (
+                scrollDirection === 'forward' &&
+                scrollOffset >= (data.length - Math.ceil(scroll.y / itemSize) * 1.5) * itemSize &&
+                !scrollUpdateWasRequested
+            ) {
+                loadMore();
+            }
+        },
+    };
 
-    render() {
-        return (
-            <Table
-                pagination={false}
-                columns={this.columns}
-                dataSource={this.state.data}
-                scroll={this.scroll}
-                style={this.style}
-                virtualized={this.virtualized}
-            />
-        );
-    }
+    useEffect(() => {
+        loadMore();
+    }, []);
+
+    return (
+        <Table
+            pagination={false}
+            columns={columns}
+            dataSource={data}
+            scroll={scroll}
+            style={style}
+            virtualized={virtualized}
+        />
+    );
 }
 
 render(InfiniteScrollDemo);
@@ -3066,7 +3007,7 @@ render(App);
 
 其中 `Column.title` 接受的入参为：
 
-```tsx
+```text
 {
     filter: ReactNode, // 筛选按钮
     sorter: ReactNode, // 排序按钮
@@ -3076,7 +3017,7 @@ render(App);
 
 `Column.render` 第四个入参为一个object，结构如下：
 
-```tsx
+```text
 {
     expandIcon: ReactNode, // 展开按钮
     selection: ReactNode, // 选择按钮
@@ -3375,10 +3316,10 @@ render(Demo)
 
 ### 行列合并
 
-- 表头除了通过 children 写法进行合并外，可通过设置 column.colSpan 进行表头的列合并。
-- 表格支持行/列合并，使用 render 里的单元格属性 colSpan 或者 rowSpan 设值为 0 时，设置的表格不会渲染。
+- 表头除了通过 `children` 写法进行合并外，可通过设置 `column.colSpan` 进行表头的列合并。
+- 表格支持行/列合并，使用 `render` 里的单元格属性 `colSpan` 或者 `rowSpan` 设值为 0 时，设置的表格不会渲染。
 
-```tsx
+```text
 type Render = (text: string, record: Object, index: number, options?: RenderOptions) => {
     children: React.ReactNode;
     props: {
@@ -3640,8 +3581,8 @@ function App() {
 
 ## onHeaderRow / onRow用法
 
-onHeaderRow中可以返回 th 支持的属性或者事件
-onRow中可以返回 tr 支持的属性或者事件
+`onHeaderRow` 中可以返回 th 支持的属性或者事件
+`onRow` 中可以返回 tr 支持的属性或者事件
 
 ```jsx
 <Table
@@ -3713,7 +3654,7 @@ type Filter = {
 
 ## Column.onCell / onHeaderCell 用法
 
-与onRow、onHeaderRow类似，在 `column.onCell` `column.onHeaderCell` 中也能返回 td/th 支持的属性或事件
+与 `onRow`、`onHeaderRow类似`，在 `column.onCell` `column.onHeaderCell` 中也能返回 td/th 支持的属性或事件
 
 
 ## rowSelection
@@ -3729,8 +3670,8 @@ type Filter = {
 | title            | 自定义列表选择框标题                            | string\|ReactNode                                                                            |        |                    |
 | width            | 自定义列表选择框宽度                            | string\|number                                                                               |        |                    |
 | onChange         | 选中项发生变化时的回调                          | (selectedRowKeys: number[]\|string[], selectedRows: RecordType[]) => void                        |        |                    |
-| onSelect         | 用户手动选择/取消选择某行的回调                 | (record: RecordType, selected: boolean, selectedRows: RecordType[], nativeEvent: MouseEvent) => void |        |                    |
-| onSelectAll      | 用户手动选择/取消选择所有行的回调               | (selected: boolean, selectedRows: RecordType[], changedRows: RecordType[]) => void                   |        |                    |
+| onSelect         | 用户手动点击某行选择框的回调                 | (record: RecordType, selected: boolean, selectedRows: RecordType[], nativeEvent: MouseEvent) => void |        |                    |
+| onSelectAll      | 用户手动点击表头选择框的回调，会选中/取消选中 dataSource 里的所有可选行 | (selected: boolean, selectedRows: RecordType[], changedRows: RecordType[]) => void                   |        |                    |
 
 ## scroll
 
@@ -3742,7 +3683,7 @@ type Filter = {
 
 ## pagination
 
-翻页组件配置。pagination 建议不要使用字面量写法。
+翻页组件配置。`pagination` 建议不要使用字面量写法。
 
 | 属性               | 说明                                                                                                                                         | 类型                                                                                          | 默认值   | 版本                |
 | ------------------ | -------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- | -------- | ------------------- |
@@ -3757,7 +3698,7 @@ type Filter = {
 
 ## Resizable
 
-resizable 对象型的参数，主要包括一些表格列伸缩时的事件方法。这些事件方法都可以返回一个对象，该对象会和最终的 column 合并。
+`resizable` 对象型的参数，主要包括一些表格列伸缩时的事件方法。这些事件方法都可以返回一个对象，该对象会和最终的 column 合并。
 
 | 属性          | 说明                     | 类型                                             | 默认值 |
 | ------------- | ------------------------ | ------------------------------------------------ | ------ |
@@ -3830,6 +3771,9 @@ function Demo() {
 - **如何给 table cell 设置样式？**
     
     涉及到单个 cell 需要控制样式的，可以通过 column.onHeaderCell、column.onCell 控制。
+- **Table 是如何实现的，我想了解更多细节？**
+
+    查看 <a href="https://bytedance.feishu.cn/docs/doccnqLgNefWGMZHFz7j70GKqpY" target="_blank">Semi Table 组件设计方案</a>了解更多。
 
 查看更多 Table FAQ 和用例，点击 <a href="https://bytedance.feishu.cn/docs/doccnsYk1qUmsIDP1ihJ9zjG0Ch" target="_blank">Table FAQ</a>
 
